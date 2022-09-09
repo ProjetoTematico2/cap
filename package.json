@@ -1,0 +1,22 @@
+{
+  "name": "cap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npx wait-on http://localhost:3000 && electron .\" \"cd src/views && npm start \"",
+    "build": "cd src/views && npm run build && cd .. && cd .. && electron-builder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^20.1.2"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.2.0",
+    "bootstrap": "^5.2.1",
+    "electron-is-dev": "^2.0.0"
+  }
+}
