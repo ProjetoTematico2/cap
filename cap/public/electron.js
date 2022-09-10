@@ -10,11 +10,13 @@ const createWindow = () => {
     height: 800,
     contextIsolation: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
-
+      preload: isDev 
+        ? path.join(app.getAppPath(), './public/preload.js') 
+        : path.join(app.getAppPath(), './build/preload.js'),
+      worldSafeExecuteJavaScript: true, 
+      contextIsolation: true, 
+    },
   })
-
   win.loadURL(
     isDev
       ? 'http://localhost:3000'

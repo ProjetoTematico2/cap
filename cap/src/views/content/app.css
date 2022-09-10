@@ -23,7 +23,7 @@
 .side-menu ul li{
     padding: 1.5rem 1rem;
     font-size: 25pt;
-    color: var( --dark-blue);
+    color: var( --dark-blue) !important;
     cursor: pointer;
     display: flex;
 }
@@ -39,6 +39,12 @@
 .side-menu ul li span{
     font-size: 13pt !important;
     margin: auto 13px;
+}
+
+.side-menu ul li a{
+    text-decoration: none !important;
+    color: var( --dark-blue) !important;
+    font-size: 13pt !important;
 }
 
 .main-container{

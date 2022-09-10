@@ -6,6 +6,7 @@ module.exports = {
 
         return [
             {
+                id: 1,
                 nome: 'fulano'
             }
         ];
