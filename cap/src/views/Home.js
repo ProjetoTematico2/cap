@@ -31,8 +31,6 @@ const Home = () => {
   const [menuItens, setMenuItens] = useState(MENU_ITENS);
   const [activeComponent, setActiveComponent] = useState(null);
 
-  
-
   const handleMenu = (id) => {
     setMenuItens(
       menuItens.map(s => { return s.id === id ? { ...s, active: true } : { ...s, active: false } })
@@ -42,8 +40,7 @@ const Home = () => {
   useEffect(() => {
     const component = menuItens.find(s => s.active).hrefComponent;
     setActiveComponent(component);
-
-  },[menuItens]);
+  }, [menuItens]);
 
   return (
     <div className="main-window">
