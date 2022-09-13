@@ -1,10 +1,15 @@
-
+import Centrais from './Centrais';
 
 const Processos = () => {
 
-    return <div>
-        Processos
-    </div>
+    return (
+        <div>
+            <Centrais/>
+        </div>
+
+      
+    )
+
 
 }
 

@@ -18,6 +18,9 @@ function Navbar() {
                 <li className={activeMenu === 'processos' ? 'active' : ''} onClick={() => { setActiveMenu('processos') }}>
                     <NavLink id="processos" to="/processos"><i className="fa-regular fa-file-lines"></i> Processos</NavLink>
                 </li>
+                <li className={activeMenu === 'login' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                    <NavLink id="login" to="/login"><i className="fa-regular fa-file-lines"></i> Login</NavLink>
+                </li>
             </ul>
         </nav>
     );
