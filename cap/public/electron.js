@@ -1,8 +1,32 @@
+
 const { app, BrowserWindow, ipcMain } = require('electron')
 const isDev = require("electron-is-dev");
 const path = require('path');
-const routes = require('../src/routes');
+const db = require('../src/models/index');
+const associate = require('../src/models/associations/sequelizeAssociations');
 
+const routes = require(path.join(app.getAppPath(), './src/routes'));
+
+
+db.sequelize
+  .sync()
+  .then((result) => {
+    console.log(db.sequelize.models);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+// const testConnetion = async ()=>{
+//    try {
+//     //await db.sequelize.authenticate();
+//     await db.sequelize.sync({ force: true });
+//     //console.log("All models were synchronized successfully.");
+//     console.log('Connection has been established successfully.');
+//   } catch (error) {
+//     console.error('Unable to connect to the database:', error);
+//   }
+// }
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -10,11 +34,11 @@ const createWindow = () => {
     height: 800,
     contextIsolation: true,
     webPreferences: {
-      preload: isDev 
-        ? path.join(app.getAppPath(), './public/preload.js') 
+      preload: isDev
+        ? path.join(app.getAppPath(), './public/preload.js')
         : path.join(app.getAppPath(), './build/preload.js'),
-      worldSafeExecuteJavaScript: true, 
-      contextIsolation: true, 
+      worldSafeExecuteJavaScript: true,
+      contextIsolation: true,
     },
   })
   win.loadURL(
@@ -32,16 +56,21 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
+
   createWindow()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+
+  // testConnetion();
+
 })
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
+
 
 
 

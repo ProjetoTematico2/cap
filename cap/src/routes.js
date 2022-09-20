@@ -1,6 +1,6 @@
 const path = require('path');
 
-const Prestadores = require('./controllers/Prestadores');
+const Prestadores = require('../src/controllers/Prestadores');
 
 module.exports = {
 

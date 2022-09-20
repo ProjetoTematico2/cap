@@ -1,0 +1,18 @@
+
+== CRIAR BASE
+npx sequelize-cli db:create
+
+==CRIAR MODEL VIA COMANDO
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+
+==NOVA MIGRACAO
+npx sequelize-cli migration:generate --name migration18092022
+
+==MIGRAR BASE
+npx sequelize-cli db:migrate
+
+== CRIAR SEED
+npx sequelize-cli seed:generate --name root-user
+
+==RODAR SEED
+npx sequelize-cli db:seed:all
