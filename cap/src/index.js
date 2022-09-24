@@ -6,6 +6,8 @@ import Home from './views/pages/Home';
 import Prestadores from './views/pages/Prestadores';
 import Processos from './views/pages/Processos';
 import Login from './views/pages/Login';
+import Centrais from './views/pages/Centrais';
+import Instituicoes from './views/pages/Instituicoes';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -31,6 +33,8 @@ root.render(
           <Route path="prestadores" element={<Prestadores />} />
           <Route path="processos" element={<Processos />} />
           <Route path="login" element={<Login />} />
+          <Route path="centrais" element={<Centrais />} />
+          <Route path="instituicoes" element={<Instituicoes />} />
         </Route>
       </Routes>
     </BrowserRouter>

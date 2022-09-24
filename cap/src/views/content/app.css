@@ -103,3 +103,8 @@
     color: var(--dark-blue);
     margin-left: 17px;
 }
+
+.select-custom {
+    border: 1px solid var(--dark-blue);
+    
+}

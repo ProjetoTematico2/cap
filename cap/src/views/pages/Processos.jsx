@@ -1,10 +1,9 @@
-import Centrais from './Centrais';
 
 const Processos = () => {
 
     return (
         <div>
-            <Centrais/>
+            Processos
         </div>
 
       
