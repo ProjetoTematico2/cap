@@ -3,19 +3,37 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const isDev = require("electron-is-dev");
 const path = require('path');
 const db = require('../src/models/index');
+const authentication = require('../src/authentication');
+
+
+//const db = require(path.join(app.getAppPath(),'../src/models/index'));
+console.log(authentication.getLoggedUser());
+
+// db.sequelize.models.UF.create({
+//   nome: "RIO GRANDE DO SUL",
+//   sigla: "RS"
+// })
+
+
 const associate = require('../src/models/associations/sequelizeAssociations');
 
 const routes = require(path.join(app.getAppPath(), './src/routes'));
 
 
-db.sequelize
-  .sync()
-  .then((result) => {
-    console.log(db.sequelize.models);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// db.sequelize
+//   .sync()
+//   .then((result) => {
+//     console.log(db.sequelize.models);
+
+//     db.sequelize.models.UF.create({
+//       nome: "RIO GRANDE DO SUL",
+//       sigla: "RS"
+//     })
+
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 // const testConnetion = async ()=>{
 //    try {

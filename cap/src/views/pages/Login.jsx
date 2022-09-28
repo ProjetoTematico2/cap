@@ -14,6 +14,12 @@ export default function Login(props) {
         setPassword(password);
     }
 
+    const Login = async () => {
+
+        var result = await window.api.Action({ controller: "Login", action: "Authenticate", params: { usuario: user, senha: password } });
+        console.log(result);
+    }
+
     return (
 
         <div className="main-window">
@@ -59,7 +65,7 @@ export default function Login(props) {
                         </div>
 
                         <div className="d-flex justify-content-center">
-                            <button type="submit" className="btn-custom">Entrar</button>
+                            <button type="button" onClick={() => { Login() }} className="btn-custom">Entrar</button>
                         </div>
 
                     </form>

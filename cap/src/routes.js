@@ -1,7 +1,7 @@
 const path = require('path');
 
-const Prestadores = require('../src/controllers/Prestadores');
-
+const Prestadores = require('./controllers/Prestadores');
+const Login = require('./controllers/Login');
 module.exports = {
 
     async Action(controller, action, params) {

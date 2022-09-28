@@ -2,7 +2,7 @@ const { sequelize } = require('../index');
 const models = sequelize.models;
 
 models.Endereco.belongsTo(models.Cidade);
-models.Cidade.hasOne(models.UF);
+models.Cidade.belongsTo(models.UF);
 
 models.Endereco.hasOne(models.Prestadores);
 models.Endereco.hasOne(models.Trabalho);
