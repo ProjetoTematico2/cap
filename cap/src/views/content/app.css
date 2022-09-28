@@ -106,5 +106,18 @@
 
 .select-custom {
     border: 1px solid var(--dark-blue);
-    
+    color: #212529;
+}
+
+.span-custom {
+    color: var(--dark-blue);
+    font-weight: 700;
+}
+
+.form-check-label{
+    color: var(--dark-blue);
+}
+
+.small-custom{
+    color: var(--dark-blue);
 }
