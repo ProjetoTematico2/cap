@@ -32,7 +32,6 @@ root.render(
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="prestadores" element={<Prestadores />} />
-          <Route path="processos" element={<Processos />} />
           <Route path="login" element={<Login />} />
           <Route path="centrais" element={<Centrais />} />
           <Route path="instituicoes" element={<Instituicoes />} />

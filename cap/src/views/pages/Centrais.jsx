@@ -36,9 +36,11 @@ export default function Centrais(props) {
         <div>
             <Title title={"Nova Central"} />
 
-            <div className="row justify-content-around">
+            <div className="row justify-content-start">
 
                 <div className="col-md-6">
+
+
                     <Label nameLabel={"1. Identificação da central"} />
 
                     <div className="input-group mt-3">
@@ -53,8 +55,7 @@ export default function Centrais(props) {
                         />
                     </div>
 
-                    <div className="input-group">
-
+                    <div className="input-group ">
                         <input
                             id="cnpj"
                             className="form-control input mt-5 rounded-2"
@@ -66,12 +67,13 @@ export default function Centrais(props) {
                         />
 
                     </div>
+
                 </div>
 
                 <div className="col-md-6">
                     <Label nameLabel={"2. Contatos da central"} />
 
-                    <div className="input-group mt-3">
+                    <div className="input-group mt-3 ">
                         <input
                             id="phone-1"
                             className="form-control input mt-5 rounded-2"
@@ -82,7 +84,7 @@ export default function Centrais(props) {
                         />
                     </div>
 
-                    <div className="input-group">
+                    <div className="input-group ">
                         <input
                             id="phone-2"
                             className="form-control input mt-5 rounded-2"
@@ -93,7 +95,7 @@ export default function Centrais(props) {
                         />
                     </div>
 
-                    <div className="input-group">
+                    <div className="input-group ">
                         <input
                             id="email"
                             className="form-control input mt-5 rounded-2"

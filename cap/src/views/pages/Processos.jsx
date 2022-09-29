@@ -13,7 +13,7 @@ export default function Processos() {
             <div className="col-md-12">
                 <div className="row">
 
-                    <div className="col-md-4 me-5">
+                    <div className="col-md-5 me-5">
 
                         <div className="input-group mb-3 mt-3">
                             <input
@@ -62,6 +62,7 @@ export default function Processos() {
 
                     </div>
 
+
                     <div className="col-md-6">
 
                         <div className="input-group mb-3 mt-3">
@@ -84,7 +85,7 @@ export default function Processos() {
                             />
                         </div>
 
-                        <div className="mt-3 mb-3">
+                        <div className="mt-4 mb-4">
 
                             <span className="span-custom d-block mb-2">Tipo de regime da pena</span>
 
@@ -105,23 +106,22 @@ export default function Processos() {
 
                         </div>
 
-                        <div className="mt-3">
-                            <span className="span-custom">Horas a cumprir</span>
+                        <div className="mt-4 mb-4">
                             <div className="input-group mb-3 mt-3">
 
                                 <input
                                     id="pena"
                                     className="form-control input rounded-2"
-                                    type="time"
+                                    type="number"
                                     placeholder="Horas a cumprir"
                                     required={true}
                                 />
                             </div>
                         </div>
 
-                        <div className="mt-3">
+                        <div className="mt-4 mb-4">
 
-                            <span className="span-custom">Possui outra PRD</span>
+                            <span className="span-custom me-2">Possui outra PRD</span>
 
                             <div className="form-check form-check-inline">
                                 <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value={1} />
@@ -149,7 +149,7 @@ export default function Processos() {
 
                         <div className="mt-3">
 
-                            <span className="span-custom">Possui multa</span>
+                            <span className="span-custom me-2">Possui multa</span>
 
                             <div className="form-check form-check-inline">
                                 <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio6" value={1} />

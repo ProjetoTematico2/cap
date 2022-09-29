@@ -29,10 +29,10 @@ function Navbar() {
                             <NavLink id="centrais" to="/centrais"><i className="fa-solid fa-archway"></i> Centrais</NavLink>
                         </li>
                         <li className={activeMenu === 'instituicoes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
-                            <NavLink id="instituicoes" to="/instituicoes"><i className="fa-solid fa-archway"></i> Instituição</NavLink>
+                            <NavLink id="instituicoes" to="/instituicoes"><i className="fa-solid fa-building"></i> Instituição</NavLink>
                         </li>
                         <li className={activeMenu === 'atividaes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
-                            <NavLink id="atividades" to="/atividades"><i className="fa-brands fa-galactic-republic"></i> Atividades</NavLink>
+                            <NavLink id="atividades" to="/atividades"><i className="fa-regular fa-clipboard"></i> Atividades</NavLink>
                         </li>
                     </ul>
                 </li>
