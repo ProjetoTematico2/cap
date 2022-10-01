@@ -32,7 +32,7 @@ function Navbar() {
                             <NavLink id="instituicoes" to="/instituicoes"><i className="fa-solid fa-building"></i> Instituição</NavLink>
                         </li>
                         <li className={activeMenu === 'atividadesPrestador' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
-                            <NavLink id="atividadesPrestador" to="/atividadesPrestador"><i className="fa-regular fa-clipboard"></i> Atividades do prestador</NavLink>
+                            <NavLink id="atividadesPrestador" to="/atividadesPrestador"><i className="fa-solid fa-clipboard-user"></i> Atividades do prestador</NavLink>
                         </li>
                         <li className={activeMenu === 'atividadesInstituicao' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
                             <NavLink id="atividadesInstituicao" to="/atividadesInstituicao"><i className="fa-regular fa-clipboard"></i> Atividades da instituicao</NavLink>

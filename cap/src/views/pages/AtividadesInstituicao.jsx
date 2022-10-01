@@ -7,7 +7,7 @@ export default function AtividadesInstituicao() {
 
         <form action="" method="post">
             <div className="row">
-                <Title title={"Nova Atividade"} />
+                <Title title={"Nova Atividade da instituição"} />
                 <Label nameLabel={"1. Informações da atividade"} style={"mb-3"} />
 
 

@@ -141,3 +141,20 @@ input[type=number] {
     padding: 10px;
     margin: 10px 0 15px 0;
 }
+
+.file-select-custom {
+   display: none;
+}
+
+.file-input-custom {
+    margin: auto;
+    border-radius: 10px !important;
+    text-align: center;
+    padding: 30px;
+    width: 75%;
+    height: 230px;
+    background-color: #949ba1;
+    color: #FFF;
+    text-align: center;
+    cursor: pointer;
+}

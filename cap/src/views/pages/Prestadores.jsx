@@ -38,9 +38,8 @@ export default function Prestadores() {
                         <div className="col-md-4">
 
                             <div className="input-group mb-3 mt-3">
-
-                                <input type="file" className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
-
+                                <label className="file-input-custom" htmlFor="inputGroupFile04">Foto</label>
+                                <input type="file" className="file-select-custom" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
                             </div>
 
                         </div>
