@@ -23,10 +23,10 @@ export default function Login(props) {
     return (
 
         <div className="main-window">
-            <div className="row">
-                <div className="login col-md-12">
+            <form action="" method="post">
+                <div className="row">
+                    <div className="login col-md-12">
 
-                    <form action="" method="post">
 
                         <div className="d-flex justify-content-center">
                             <img className="img-fluid" src={image} width={300} height={300} alt="Logo" />
@@ -65,12 +65,12 @@ export default function Login(props) {
                         </div>
 
                         <div className="d-flex justify-content-center">
-                            <button type="button" onClick={() => { Login() }} className="btn-custom">Entrar</button>
+                            <button type="submit" onClick={() => { Login() }} className="btn-custom">Entrar</button>
                         </div>
 
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
 
         </div>
     )

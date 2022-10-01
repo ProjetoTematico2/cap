@@ -90,7 +90,7 @@
     border-bottom: 1px solid var(--dark-blue);
 }
 
-.label-container{
+.label-container {
     padding: 12px;
     margin-top: 10px;
     border-left: 3px solid var(--dark-blue);
@@ -114,10 +114,30 @@
     font-weight: 700;
 }
 
-.form-check-label{
+.form-check-label {
     color: var(--dark-blue);
 }
 
-.small-custom{
+.small-custom {
     color: var(--dark-blue);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.form-check-input:checked {
+    background-color: var(--dark-blue);
+}
+
+.search-custom {
+    width: 20%;
+    padding: 10px;
+    margin: 10px 0 15px 0;
 }

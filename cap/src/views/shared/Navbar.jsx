@@ -31,8 +31,11 @@ function Navbar() {
                         <li className={activeMenu === 'instituicoes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
                             <NavLink id="instituicoes" to="/instituicoes"><i className="fa-solid fa-building"></i> Instituição</NavLink>
                         </li>
-                        <li className={activeMenu === 'atividaes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
-                            <NavLink id="atividades" to="/atividades"><i className="fa-regular fa-clipboard"></i> Atividades</NavLink>
+                        <li className={activeMenu === 'atividadesPrestador' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="atividadesPrestador" to="/atividadesPrestador"><i className="fa-regular fa-clipboard"></i> Atividades do prestador</NavLink>
+                        </li>
+                        <li className={activeMenu === 'atividadesInstituicao' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="atividadesInstituicao" to="/atividadesInstituicao"><i className="fa-regular fa-clipboard"></i> Atividades da instituicao</NavLink>
                         </li>
                     </ul>
                 </li>

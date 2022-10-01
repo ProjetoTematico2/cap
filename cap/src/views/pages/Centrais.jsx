@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Title from "../shared/Title";
 import Label from "../shared/Label";
+import Buttons from "../shared/Buttons";
 
 
 export default function Centrais(props) {
@@ -110,9 +111,7 @@ export default function Centrais(props) {
                 <div className="row">
                     <div className="col-md-10 mt-5">
                         <div className="mt-5 d-flex justify-content-center">
-                            <button className="btn-custom m-2" onClick={handleSubmit}>Confirmar</button>
-                            <button className="btn-custom m-2" >Cancelar</button>
-                            <button className="btn-custom m-2" >Limpar</button>
+                           <Buttons style={"me-2"}></Buttons>
                         </div>
                     </div>
                 </div>
