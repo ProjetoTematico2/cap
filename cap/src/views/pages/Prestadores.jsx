@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Label from "../shared/Label";
 import Endereco from "../shared/Endereco";
 import Title from '../shared/Title';
 import Buttons from "../shared/Buttons";
 
-const Prestadores = () => {
+
+export default function Prestadores() {
 
     // const [listaPrestadores, setListaPrestadores] = useState([]);
 
@@ -18,11 +19,13 @@ const Prestadores = () => {
     //     getListaPrestadores();
 
     // }, []);
+}
 
 
 
+return (
+    <form action="" method="post">
 
-    return (
         <div className="row">
             <Title title={"Novo Prestador"} />
             <Label nameLabel={"1. Informações do Prestador"} />
@@ -31,12 +34,12 @@ const Prestadores = () => {
 
                 <div className="row">
 
+
                     <div className="col-md-4">
 
                         <div className="input-group mb-3 mt-3">
-
-                            <input type="file" className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
-
+                            <label className="file-input-custom" htmlFor="inputGroupFile04">Foto</label>
+                            <input type="file" className="file-select-custom" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
                         </div>
 
                     </div>
@@ -188,52 +191,106 @@ const Prestadores = () => {
             </div>
 
             <div className="row">
-                <div className="col-md-12">
 
-                    <span className="span-custom">Possui Beneficios do Governo? </span>
+                <div className="col-md-4">
 
-                    <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value={1} />
-                        <label className="form-check-label" htmlFor="inlineRadio1">Não</label>
+                    <div className="input-group mb-3 mt-3">
+
+                        <input type="file" className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+
                     </div>
 
-                    <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value={0} />
-                        <label className="form-check-label" htmlFor="inlineRadio2">Sim</label>
-                    </div>
+                </div>
 
-                    <div className="input-group">
-                        <textarea
-                            rows={5}
-                            cols={5}
-                            id="beneficiosTexto"
-                            className="form-control input mt-2 rounded-2"
+                <div className="col-md-8">
+
+                    <div className="input-group mb-3 mt-3">
+                        <input
+                            id="nome"
+                            className="form-control input rounded-2"
                             type="text"
-                            placeholder="Quais?"
-                            required={false}
+                            placeholder="Nome"
+                            required={true}
+
                         />
                     </div>
 
-                </div>
+                    <div className="input-group mb-3 mt-3">
+                        <input
+                            id="nomeMae"
+                            className="form-control input rounded-2"
+                            type="text"
+                            placeholder="Nome da mae"
+                            required={true}
 
-                <div>
-                    <button className="btn-custom mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Endereço</button>
-                    {Endereco()}
-                </div>
+                        />
+                    </div>
 
-                <div>
-                    <Buttons style={"me-2"}></Buttons>
+                    <div className="row">
+                        <div className="col-md-6">
+
+                            <div className="input-group mb-3 mt-3">
+                                <input
+                                    id="cpf"
+                                    className="form-control input rounded-2"
+                                    type="text"
+                                    placeholder="CPF"
+                                    required={true}
+
+                                />
+                            </div>
+
+                            <div className="input-group mb-3 mt-3">
+                                <input
+                                    id="telefone"
+                                    className="form-control input rounded-2"
+                                    type="tel"
+                                    placeholder="Telefone"
+                                    required={true}
+
+                                />
+                            </div>
+
+                        </div>
+
+                        <div className="col-md-6">
+
+
+                            <div className="input-group mb-3 mt-3">
+                                <input
+                                    id="dataDeNascimento"
+                                    className="form-control input rounded-2"
+                                    type="date"
+                                    placeholder="Data de nascimento"
+                                    required={true}
+
+                                />
+                            </div>
+
+                            <div className="input-group mb-3 mt-3">
+                                <input
+                                    id="telefone2"
+                                    className="form-control input rounded-2"
+                                    type="tel"
+                                    placeholder="Telefone 2 (opcional)"
+                                    required={true}
+
+                                />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
                 </div>
 
 
             </div>
 
         </div>
+    </form>
+)
 
 
 
-    )
-
-}
-
-export default Prestadores;

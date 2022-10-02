@@ -158,7 +158,7 @@ th{
     border-bottom: 1px solid var(--dark-blue);
 }
 
-.label-container{
+.label-container {
     padding: 12px;
     margin-top: 10px;
     border-left: 3px solid var(--dark-blue);
@@ -182,11 +182,11 @@ th{
     font-weight: 700;
 }
 
-.form-check-label{
+.form-check-label {
     color: var(--dark-blue);
 }
 
-.small-custom{
+.small-custom {
     color: var(--dark-blue);
 }
 
@@ -223,4 +223,41 @@ th{
 
 .table-container{
 margin-top: 3rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.form-check-input:checked {
+    background-color: var(--dark-blue);
+}
+
+.search-custom {
+    width: 20%;
+    padding: 10px;
+    margin: 10px 0 15px 0;
+}
+
+.file-select-custom {
+   display: none;
+}
+
+.file-input-custom {
+    margin: auto;
+    border-radius: 10px !important;
+    text-align: center;
+    padding: 30px;
+    width: 75%;
+    height: 230px;
+    background-color: #949ba1;
+    color: #FFF;
+    text-align: center;
+    cursor: pointer;
 }

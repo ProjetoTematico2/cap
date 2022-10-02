@@ -1,5 +1,7 @@
 const authentication = require('../authentication');
 
+
+
 module.exports = {
 
     async isAuthenticated() {
