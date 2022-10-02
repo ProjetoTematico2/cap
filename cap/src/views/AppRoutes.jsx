@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import Layout from './shared/Layout';
 // import Centrais from './pages/Centrais';
 import Instituicoes from './pages/Instituicoes/Index';
-import Atividades from './pages/Atividades';
+import AtividadesPrestador from './pages/AtividadesPrestador';
 import Prestadores from './pages/Prestadores';
 import Processos from './pages/Processos';
 
@@ -52,7 +52,7 @@ const AppRoutes = () => {
                         <Route path="processos" element={<Private><Processos /></Private>} />
                         <Route path="centrais" element={<Private><Centrais /></Private>}/>
                         <Route path="instituicoes" element={<Private><Instituicoes /></Private>} />
-                        <Route path="atividades" element={<Private><Atividades /></Private>} />
+                        <Route path="AtividadesPrestador" element={<Private><AtividadesPrestador /></Private>} />
                         <Route path="processos" element={<Private><Processos /></Private>} />
                     </Route>
                 </Routes>
