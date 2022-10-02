@@ -1,51 +1,60 @@
 import React, { useState } from "react";
-import Title from "../shared/Title";
-import Endereco from "../shared/Endereco";
-import Label from "../shared/Label";
+import { useNavigate } from 'react-router-dom'
+import Title from "../../shared/Title";
+import Endereco from "../../shared/Endereco";
+import Label from "../../shared/Label";
 
 
-export default function Centrais(props) {
+export default function Create(props) {
 
     const [centralName, setCentralName] = useState('');
     const [cpnj, setCNPJ] = useState();
     const [firstPhone, setFirstPhone] = useState('');
     const [secondPhone, setSecondPhone] = useState('');
     const [email, setEmail] = useState('');
+    const navigate = useNavigate();
 
     const [endereco, setEndereco] = useState({
-        rua: null,
-        cep: null,
-        numero: null,
-        bairro: null,
-        complemento: null,
-        id_cidade: null
+        rua: '',
+        cep: '',
+        numero: '',
+        bairro: '',
+        complemento: '',
+        id_cidade: ''
     });
 
     const handleEndereco = (evt, name = null) => {
-        debugger;
         const value = evt.value ?? evt.target.value;
 
         setEndereco({
             ...endereco,
-            [ name ? name: evt.target.name]: value 
+            [name ? name : evt.target.name]: value
         })
 
     }
 
 
-    function handleSubmit() {
+    const handleSubmit = async () => {
 
         const payload = {
-            centralName: centralName,
-            cpnj: cpnj,
-            firstPhone: firstPhone,
-            secondPhone: secondPhone,
+            nome: centralName,
+            cnpj: cpnj,
+            telefone1: firstPhone,
+            telefone2: secondPhone,
             email: email,
             endereco: endereco
         }
 
-        console.log(payload);
+        const postResult = await window.api.Action({ controller: "Centrais", action: "Create", params: payload });
+
+
+        window.api.Alert({ status: postResult.status, text: postResult.text, title: postResult.status ? "Sucesso!" : "Erro!" });
+
+        if (postResult.status)
+            navigate("/centrais");
     }
+
+
 
     function handleClear() {
 
@@ -145,9 +154,9 @@ export default function Centrais(props) {
                 <div className="row">
                     <div className="col-md-10 mt-5">
                         <div className="mt-5 d-flex justify-content-center">
-                            <button className="btn-custom m-2" onClick={handleSubmit}>Confirmar</button>
-                            <button className="btn-custom m-2" >Cancelar</button>
-                            <button className="btn-custom m-2" >Limpar</button>
+                            <button className="btn btn-custom m-2" onClick={handleSubmit}>Confirmar</button>
+                            <button className="btn btn-custom m-2" >Cancelar</button>
+                            <button className="btn btn-custom m-2" >Limpar</button>
                         </div>
                     </div>
                 </div>

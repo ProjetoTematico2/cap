@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import image from "../../assets/logo.png";
 
+import { AuthContext } from "../contexts/auth";
+
 export default function Login(props) {
+
+    const { authenticated, login } = useContext(AuthContext);
 
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
@@ -14,17 +18,15 @@ export default function Login(props) {
         setPassword(password);
     }
 
-    const Login = async () => {
-
-        var result = await window.api.Action({ controller: "Login", action: "Authenticate", params: { usuario: user, senha: password } });
-        console.log(result);
+    const handleSubmit = () => {
+        login(user, password);
     }
+
 
     return (
 
         <div className="main-window">
-            <div className="row">
-                <div className="login col-md-12">
+                <div className="login-form">
 
                     <form action="" method="post">
 
@@ -35,7 +37,7 @@ export default function Login(props) {
                         <div className="d-flex justify-content-center">
                             <h1 className="text-center">Central integrada de alternativas penais</h1>
                         </div>
-
+                        
                         <div className="form-group row d-flex justify-content-center mt-3">
                             <div className="col-md-8 col-lg-6">
 
@@ -65,12 +67,11 @@ export default function Login(props) {
                         </div>
 
                         <div className="d-flex justify-content-center">
-                            <button type="button" onClick={() => { Login() }} className="btn-custom">Entrar</button>
+                            <button type="button" onClick={() => { handleSubmit() }} className="btn btn-custom">Entrar</button>
                         </div>
 
                     </form>
                 </div>
-            </div>
 
         </div>
     )

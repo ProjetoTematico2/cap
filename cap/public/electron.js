@@ -1,18 +1,10 @@
 
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, Notification } = require('electron')
 const isDev = require("electron-is-dev");
 const path = require('path');
 const db = require('../src/models/index');
 const authentication = require('../src/authentication');
 
-
-//const db = require(path.join(app.getAppPath(),'../src/models/index'));
-console.log(authentication.getLoggedUser());
-
-// db.sequelize.models.UF.create({
-//   nome: "RIO GRANDE DO SUL",
-//   sigla: "RS"
-// })
 
 
 const associate = require('../src/models/associations/sequelizeAssociations');
@@ -25,10 +17,6 @@ const routes = require(path.join(app.getAppPath(), './src/routes'));
 //   .then((result) => {
 //     console.log(db.sequelize.models);
 
-//     db.sequelize.models.UF.create({
-//       nome: "RIO GRANDE DO SUL",
-//       sigla: "RS"
-//     })
 
 //   })
 //   .catch((err) => {
@@ -45,9 +33,9 @@ const routes = require(path.join(app.getAppPath(), './src/routes'));
 //     console.error('Unable to connect to the database:', error);
 //   }
 // }
-
+let win = null;
 const createWindow = () => {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 1300,
     height: 800,
     contextIsolation: true,
@@ -90,13 +78,27 @@ app.on('window-all-closed', () => {
 })
 
 
+ipcMain.handle('alert', async (event, args) => {
+  new Notification({
+    icon:  path.join(app.getAppPath(), args.status ? './public/success.png' : './public/error.png'),
+    title: args.title,
+    body: args.text,
+  }).show()
 
+})
 
 ipcMain.handle('action', async (event, args) => {
+
   if (!args.controller)
     return { status: false, text: "Controller not indetified" };
   if (!args.action)
     return { status: false, text: "Action not indetified" };
+
+  if (!await authentication.is_authenticated && args.controller != 'Login' && args.controller != 'Authenticate') {
+    win.webContents.send('redirect-login');
+    return { status: false, text: "Unauthorized", unauthorized: true };
+  }
+
 
   const routesResult = await routes.Action(args.controller, args.action, args.params);
   return routesResult;

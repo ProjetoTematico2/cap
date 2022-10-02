@@ -4,11 +4,11 @@ const db = require('./models/index');
 class Auth {
     static is_authenticated = false;
     static id_logged_user = null;
-    
+
 
     static async getLoggedUser() {
         return await db.sequelize.models.Usuario.findOne({
-            attributes: ['usuario', 'nome'],
+            attributes: ['id', 'nome'],
             where: {
                 id: this.id_logged_user
             }
@@ -23,15 +23,18 @@ class Auth {
                 usuario: usuario
             }
         });
-        if(user){
+        if (user) {
             const isValid = bcrypt.compareSync(senha, user.senha);
-            if(isValid){
+            if (isValid) {
                 this.is_authenticated = true;
                 this.id_logged_user = user.id;
             }
-           
+
         }
-        return this.is_authenticated;
+        if (!this.is_authenticated)
+            return { status: false };
+
+        return { status: true, user: {id: user.id, name: user.nome} }
     }
 
 }

@@ -55,6 +55,7 @@ const Frequencia = {
 Object.freeze(Frequencia);
 
 module.exports = {
+    TipoInstituicao: TipoInstituicao,
     EstadoCivil: EstadoCivil,
     Escolaridade: Escolaridade,
     Etnia: Etnia,

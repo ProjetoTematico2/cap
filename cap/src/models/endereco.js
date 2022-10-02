@@ -15,8 +15,9 @@ module.exports = (sequelize, DataTypes) => {
   Endereco.init({
     cep: DataTypes.INTEGER,
     rua: DataTypes.STRING,
-    bairro: DataTypes.DATE,
-    complemento: DataTypes.INTEGER
+    numero: DataTypes.INTEGER,
+    bairro: DataTypes.STRING,
+    complemento: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Endereco',
