@@ -10,7 +10,7 @@ export default function Edit(props) {
 
     const { id } = useParams();
 
-    const [centralName, setCentralName] = useState('');
+    const [entidadeName, setEntidadeName] = useState('');
     const [cnpj, setCNPJ] = useState();
     const [firstPhone, setFirstPhone] = useState('88');
     const [secondPhone, setSecondPhone] = useState('');
@@ -31,9 +31,9 @@ export default function Edit(props) {
     useEffect(() => {
 
         const fetchData = async () => {
-            let data = await window.api.Action({ controller: "Centrais", action: "GetCentrais", params: { id: id } });
+            let data = await window.api.Action({ controller: "Entidades", action: "GetEntidades", params: { id: id } });
             data = data[0];
-            setCentralName(data.nome);
+            setEntidadeName(data.nome);
             setCNPJ(data.cnpj);
             setFirstPhone(data.telefone1);
             setSecondPhone(data.telefone2);
@@ -68,7 +68,7 @@ export default function Edit(props) {
 
         const payload = {
             id: id,
-            nome: centralName,
+            nome: entidadeName,
             cnpj: cnpj,
             telefone1: firstPhone,
             telefone2: secondPhone,
@@ -76,45 +76,45 @@ export default function Edit(props) {
             endereco: endereco
         }
 
-        const postResult = await window.api.Action({ controller: "Centrais", action: "Edit", params: payload });
+        const postResult = await window.api.Action({ controller: "Entidades", action: "Edit", params: payload });
 
         window.api.Alert({ status: postResult.status, text: postResult.text, title: postResult.status ? "Sucesso!" : "Erro!" });
 
         if (postResult.status)
-            navigate("/centrais");
+            navigate("/entidades");
     }
 
 
 
     function handleClear() {
 
-        setCentralName('');
+        setEntidadeName('');
 
 
     }
 
     return (
         <div>
-            <Title title={"Editar Central"} />
+            <Title title={"Editar Entidade"} />
 
             <div className="row">
 
                 <div className="col-md-4">
 
                     <div className="col-md-12">
-                        <Label nameLabel={"Identificação da central"} />
+                        <Label nameLabel={"Identificação da entidade"} />
 
                         <div className="input-form">
 
-                            <label htmlFor="centralName">Nome</label>
+                            <label htmlFor="entidadeName">Nome</label>
                             <input
-                                id="centralName"
+                                id="entidadeName"
                                 className="form-control input rounded-2"
                                 type="text"
-                                placeholder="Nome da central"
-                                value={centralName}
+                                placeholder="Nome da entidade"
+                                value={entidadeName}
                                 required={true}
-                                onChange={(e) => setCentralName(e.target.value)}
+                                onChange={(e) => setEntidadeName(e.target.value)}
                             />
                         </div>
 
@@ -134,7 +134,7 @@ export default function Edit(props) {
 
                     <div className="col-md-12">
 
-                        <Label nameLabel={"Contatos da central"} />
+                        <Label nameLabel={"Contatos da entidade"} />
 
                         <div className="input-form">
                             <label htmlFor="phone-1">Telefone 1</label>
@@ -187,7 +187,7 @@ export default function Edit(props) {
                 <div className="row">
                     <div className="col-md-12 btn-inline" style={{ 'marginTop': '2rem' }}>
                         <button className="btn btn-dark-blue" onClick={handleSubmit}>Confirmar</button>
-                        <button type="button" onClick={() => { navigate("/centrais"); }} className="btn btn-danger"><i className="fa fa-trash"></i> Cancelar</button>
+                        <button type="button" onClick={() => { navigate("/entidades"); }} className="btn btn-danger"><i className="fa fa-trash"></i> Cancelar</button>
                     </div>
 
                 </div>

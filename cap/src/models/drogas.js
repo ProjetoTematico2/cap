@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Drogas.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     nome: DataTypes.STRING
   }, {
     sequelize,

@@ -5,7 +5,7 @@ import Endereco from "../../shared/Endereco";
 import Label from "../../shared/Label";
 
 
-export default function Create(props) {
+const Create = (props) => {
 
     const [centralName, setCentralName] = useState('');
     const [cpnj, setCNPJ] = useState();
@@ -143,13 +143,11 @@ export default function Create(props) {
                 </div>
 
                 <div className="row">
-                    <div className="col-md-10 mt-5">
-                        <div className="mt-5 d-flex justify-content-center">
-                            <button className="btn btn-custom m-2" onClick={handleSubmit}>Confirmar</button>
-                            <button className="btn btn-custom m-2" >Cancelar</button>
-                            <button className="btn btn-custom m-2" >Limpar</button>
-                        </div>
+                    <div className="col-md-12 btn-inline" style={{ 'marginTop': '2rem' }}>
+                        <button className="btn btn-dark-blue" onClick={handleSubmit}>Confirmar</button>
+                        <button type="button" onClick={() => { navigate("/centrais"); }} className="btn btn-danger"><i className="fa fa-trash"></i> Cancelar</button>
                     </div>
+                 
                 </div>
 
             </div>
@@ -157,3 +155,5 @@ export default function Create(props) {
     )
 
 }
+
+export default Create;

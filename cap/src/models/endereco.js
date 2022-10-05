@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Endereco.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     cep: DataTypes.INTEGER,
     rua: DataTypes.STRING,
     numero: DataTypes.INTEGER,

@@ -41,7 +41,7 @@ export default function Login(props) {
                         <div className="form-group row d-flex justify-content-center mt-3">
                             <div className="col-md-8 col-lg-6">
 
-                                <div className="input-group justify-content-center">
+                                <div className="justify-content-center">
                                     <input
                                         id="user"
                                         className="form-control input p-2 m-3 rounded-2"
@@ -52,7 +52,7 @@ export default function Login(props) {
                                     />
                                 </div>
 
-                                <div className="input-group justify-content-center">
+                                <div className="justify-content-center">
                                     <input id="password"
                                         className="form-control input p-2 m-3 rounded-2"
                                         type="password"
@@ -67,7 +67,7 @@ export default function Login(props) {
                         </div>
 
                         <div className="d-flex justify-content-center">
-                            <button type="button" onClick={() => { handleSubmit() }} className="btn btn-custom">Entrar</button>
+                            <button type="button" onClick={() => { handleSubmit() }} className="btn btn-dark-blue">Entrar</button>
                         </div>
 
                     </form>

@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Prestador.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     nome: DataTypes.STRING,
     cpf: DataTypes.INTEGER,
     nome_mae: DataTypes.STRING,
@@ -23,7 +28,19 @@ module.exports = (sequelize, DataTypes) => {
     renda_familiar: DataTypes.DOUBLE,
     telefone1: DataTypes.INTEGER,
     telefone2: DataTypes.INTEGER,
-    religiao: DataTypes.STRING
+    religiao: DataTypes.STRING,
+    image: {
+      type: DataTypes.BLOB('long'),
+      get() {
+        let buffer = this.getDataValue('image');
+
+        let imgBase64 = Buffer.from(buffer).toString('base64');
+        if(imgBase64) imgBase64 = `data:image/jpeg;base64,${imgBase64}`;
+       
+        
+        return imgBase64;
+      }
+    }
   }, {
     sequelize,
     modelName: 'Prestadores',

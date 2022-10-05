@@ -76,11 +76,9 @@ export default function Create() {
             </div>
 
             <div className="row">
-                <div className="col-md-10 mt-5">
-                    <div className="mt-5 d-flex justify-content-center">
-                        <button type='submit' className="btn btn-custom m-2" onClick={handleSubmit}>Confirmar</button>
-                        <button type='reset' className="btn btn-custom m-2" >Limpar</button>
-                    </div>
+                <div className="col-md-12 btn-inline" style={{ 'marginTop': '2rem' }}>
+                    <button type='submit' className="btn btn-dark-blue" onClick={handleSubmit}>Confirmar</button>
+                    <button type="button" onClick={() => { navigate("/usuarios"); }} className="btn btn-danger"><i className="fa fa-trash"></i> Cancelar</button>
                 </div>
             </div>
         </div>

@@ -48,9 +48,9 @@ Object.freeze(Deficiencia);
 
 
 const Frequencia = {
-    Sim: 0,
-    Não: 1,
-    Eventualmente: 2
+    NaoUsa: 0,
+    Eventualmente: 1,
+    ComFrequencia: 2
 }
 Object.freeze(Frequencia);
 

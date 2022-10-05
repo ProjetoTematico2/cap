@@ -37,6 +37,8 @@ export const AuthProvider = ({ children }) => {
             // localStorage.setItem('user', JSON.stringify(authenticated.user));
             setUser(authenticated.user);
             navigate('/');
+        }else{
+            window.api.Alert({ status: false, text: 'Usuário ou Senha inválidos', title: "Erro!" });
         }
 
     };

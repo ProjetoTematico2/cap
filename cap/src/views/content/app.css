@@ -10,48 +10,55 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.pull-right{
+.pull-right {
     float: right !important;
 }
 
-a{
+.no-border input{
+    border: 0 !important;
+}
+
+a {
     cursor: pointer !important;
 }
-.modal-btn{
+
+.modal-btn {
     margin: 0 0.5rem;
 }
-#user-info{
+
+#user-info {
     padding: 1rem;
     font-size: 10pt;
     display: flex;
 }
-#user-info *{
+
+#user-info * {
     margin: auto;
     padding-left: 1rem;
 }
 
-#user-info svg{
+#user-info svg {
     font-size: 40pt !important;
     font-weight: 300 !important;
 }
 
-.btn-logout{
+.btn-logout {
     font-size: 9pt !important;
     color: var(--dark-blue);
     border-bottom: 1px solif var(--dark-blue) !important;
 }
 
-.btn-confirm{
+.btn-confirm {
     background: var(--dark-blue) !important;
     color: white !important;
 }
 
-.btn-confirm:hover{
+.btn-confirm:hover {
     color: white;
-    opacity: 90%  !important;
+    opacity: 90% !important;
 }
 
-.btn-cancel{
+.btn-cancel {
     background: var(--white-grey) !important;
 }
 
@@ -60,17 +67,17 @@ a{
     background: var(--white-grey) !important;
     position: relative;
     height: 100vh;
-    
+
 }
 
-.top-menu{
+.top-menu {
     padding-left: 300px;
     height: 5rem;
     position: fixed;
     width: 100%;
     top: 0;
     color: var(--dark-blue);
-   
+
 }
 
 .side-menu {
@@ -116,7 +123,8 @@ a{
 .main-container {
     margin-left: 300px;
     padding: 1rem;
-    margin-top: 5rem;;
+    margin-top: 5rem;
+    ;
     position: fixed;
     right: 0;
     left: 0;
@@ -125,7 +133,7 @@ a{
     overflow: auto;
 }
 
-th{
+th {
     color: var(--dark-blue) !important;
     font-weight: 300 !important;
 }
@@ -191,39 +199,82 @@ th{
 }
 
 
-.login-form{
+.login-form {
     display: flex;
     flex-direction: column;
 }
 
-.login-form form{
+.login-form form {
     margin: auto;
     max-width: 1200px;
 
 }
 
+.btn-dark-blue{
+    background-color: var(--dark-blue) !important;
+    color: var(--white-grey) !important;
 
-.input-form{
+  
+}
+
+.input-group input{
+    border-radius: 10px 0 0 10px !important;
+}
+
+.input-group button{
+    border-radius: 0 10px 10px 0 !important;
+    z-index: 0 !important;
+}
+
+.btn-dark-blue:hover{
+    background-color: var(--dark-blue) !important;
+    color: var(--white-grey) !important;
+    opacity: 70%;
+}
+
+
+.input-form {
     font-size: 12pt !important;
     color: var(--dark-blue);
 }
 
-.input-form label{
-    font-size: 10pt !important;
-    margin-top: 1rem;
+.input-form.inline {
+    display: flex;
+    align-self: center;
 }
 
-.search-container{
+.input-form label {
+    font-size: 10pt !important;
+    margin-top: 1rem;
+    display: inline-flex;
+    align-self: center;
+}
+
+.input-form .label-radio{
+    padding-left: 1rem;
+    align-self: center;
+    display: inline-flex;
+    cursor: pointer;
+}
+
+
+.input-form .label-radio input{
+    width: 2rem;
+    cursor: pointer;
+}
+
+
+.search-container {
     padding: 1rem 0 3rem 0;
 }
 
-.search-container input{
+.search-container input {
     background: var(--white-grey);
     border: 1px solid #777777 !important;
 }
 
-.table-container{
-margin-top: 3rem;
+.table-container {
+    margin-top: 3rem;
 }
 
 input::-webkit-outer-spin-button,
@@ -247,18 +298,59 @@ input[type=number] {
 }
 
 .file-select-custom {
-   display: none;
+    display: none;
 }
 
 .file-input-custom {
     margin: auto;
     border-radius: 10px !important;
     text-align: center;
-    padding: 30px;
-    width: 75%;
+    /* padding: 30px; */
+    width: 200px;
     height: 230px;
     background-color: #949ba1;
     color: #FFF;
-    text-align: center;
     cursor: pointer;
+    display: flex;
 }
+
+#upload-file-layout #empty-image {
+    width: 100% !important;
+    ;
+    align-self: center !important;
+}
+
+
+#upload-file-layout svg {
+    font-size: 40pt !important;
+}
+
+#upload-file-layout img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 3px solid #b3b8f3;
+}
+
+.img-upload-container {
+    position: relative;
+}
+
+.btn-remove-img {
+    margin: auto;
+    font-size: 10pt !important;
+
+}
+
+.btn-remove-img svg {
+    font-size: 10pt !important;
+}
+
+.btn-inline{
+    display: inline-flex;
+}
+
+.btn-inline button:not(:first-child){
+    margin-left: 1rem;
+}
+

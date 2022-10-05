@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { AuthContext } from '../contexts/auth';
-
 const Topbar = () => {
     const { user, logout } = useContext(AuthContext);
     return (

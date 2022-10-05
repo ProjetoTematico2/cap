@@ -23,11 +23,30 @@ function Navbar() {
                     <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Outros</a>
                     <ul className="dropdown-menu">
 
+                        <li className={activeMenu === 'instituicoes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="entidades" to="/entidades"><i className="fa-solid fa-archway"></i> Entidades</NavLink>
+                        </li>
+
                         <li className={activeMenu === 'centrais' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
                             <NavLink id="centrais" to="/centrais"><i className="fa-solid fa-archway"></i> Centrais</NavLink>
                         </li>
-                        <li className={activeMenu === 'instituicoes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
-                            <NavLink id="instituicoes" to="/instituicoes"><i className="fa-solid fa-building"></i> Instituição</NavLink>
+
+                        {/* <li className={activeMenu === 'atividaes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="atividades" to="/atividades"><i className="fa-brands fa-galactic-republic"></i> Atividades</NavLink>
+                        </li> */}
+                        <li className={activeMenu === 'atividadesPrestador' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="atividadesPrestador" to="/atividadesPrestador"><i className="fa-solid fa-clipboard-user"></i> Atividades do prestador</NavLink>
+                        </li>
+
+                        <li className={activeMenu === 'atividadesInstituicao' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="" to="/atividadesInstituicao"><i className="fa-solid fa-clipboard-user"></i> Atividades da insituição</NavLink>
+                        </li>
+
+
+                      
+
+                        <li className={activeMenu === 'usuarios' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="usuarios" to="/usuarios"><i className="fa-solid fa-user"></i> Usuários</NavLink>
                         </li>
                         <li className={activeMenu === 'atividades' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
                             <NavLink id="atividades" to="/atividades"><i className="fa-solid fa-clipboard-user"></i> Atividades</NavLink>

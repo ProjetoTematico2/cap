@@ -101,7 +101,6 @@ const Endereco = (props) => {
                         className="form-control input rounded-2"
                         rows={7}
                         placeholder=""
-                        required={true}
                         value={props.endereco.complemento}
                         onChange={props.handleChange}
                     />

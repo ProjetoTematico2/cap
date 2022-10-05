@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Familiar.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     nome: DataTypes.STRING,
     parentesco: DataTypes.STRING,
     idade: DataTypes.INTEGER,

@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Cursos.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     intituicao: DataTypes.STRING,
     curso: DataTypes.STRING,
     observacoes: DataTypes.STRING,

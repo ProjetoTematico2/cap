@@ -13,11 +13,21 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Trabalho.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     descricao: DataTypes.STRING,
-    cpf: DataTypes.INTEGER,
-    horario_inicio: DataTypes.DATE(6),
-    horario: DataTypes.DATE(6),
-    dias_semana: DataTypes.STRING.BINARY,
+    horario_inicio: DataTypes.TIME,
+    horario_fim: DataTypes.TIME,
+    segunda: DataTypes.BOOLEAN,
+    terca: DataTypes.BOOLEAN,
+    quarta: DataTypes.BOOLEAN,
+    quinta: DataTypes.BOOLEAN,
+    sexta: DataTypes.BOOLEAN,
+    sabado: DataTypes.BOOLEAN,
+    domingo: DataTypes.BOOLEAN,
     observacoes: DataTypes.STRING
   }, {
     sequelize,

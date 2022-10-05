@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Habilidades.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     descricao: DataTypes.STRING,
     observacao: DataTypes.STRING,
   }, {

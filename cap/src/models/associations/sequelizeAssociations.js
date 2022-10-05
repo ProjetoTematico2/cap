@@ -14,7 +14,7 @@ models.Trabalho.belongsTo(models.Endereco);
 models.Prestadores.hasMany(models.Familiares);
 models.Familiares.belongsTo(models.Prestadores);
 
-models.Prestadores.hasMany(models.Trabalho);
+models.Prestadores.hasOne(models.Trabalho);
 models.Trabalho.belongsTo(models.Prestadores);
 
 models.Prestadores.hasMany(models.Cursos);
@@ -26,9 +26,12 @@ models.Habilidades.belongsTo(models.Prestadores);
 models.Prestadores.hasOne(models.FichaMedica);
 models.FichaMedica.belongsTo(models.Prestadores);
 
-models.Drogas.hasOne(models.UsoDrogas);
+//models.Drogas.hasOne(models.UsoDrogas);
 models.FichaMedica.hasMany(models.UsoDrogas);
+models.Drogas.hasMany(models.UsoDrogas);
 models.UsoDrogas.belongsTo(models.FichaMedica);
+models.UsoDrogas.belongsTo(models.Drogas);
+
 
 models.Prestadores.hasMany(models.Beneficios);
 
@@ -36,7 +39,7 @@ models.Processos.hasOne(models.Vara);
 
 models.Prestadores.hasMany(models.Processos);
 models.Processos.belongsTo(models.Prestadores);
-
+models.Processos.belongsTo(models.Instituicoes);
 
 models.Endereco.hasOne(models.Instituicoes);
 models.Instituicoes.belongsTo(models.Endereco);

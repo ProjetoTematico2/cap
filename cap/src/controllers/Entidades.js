@@ -32,12 +32,12 @@ module.exports = {
 
         if (!payload.endereco.id_cidade)
             return { status: false, text: "Informe uma cidade" };
-        
-        try {
 
+
+        try {
             let check =  await db.sequelize.models.Instituicoes.findAll({
                 where: {
-                    tipo_instituicao: TipoInstituicao.Central,
+                    tipo_instituicao: TipoInstituicao.Entidade,
                     cnpj: parseInt(payload.cnpj)
                 }
             })
@@ -59,7 +59,7 @@ module.exports = {
                     email: payload.email,
                     telefone1: payload.telefone1,
                     telefone2: payload.telefone2,
-                    tipo_instituicao: TipoInstituicao.Central,
+                    tipo_instituicao: TipoInstituicao.Entidade,
                     EnderecoId: endereco.id
                 });
             });
@@ -68,7 +68,7 @@ module.exports = {
             return { status: false, text: "Erro interno no servidor." };
         }
 
-        return { status: true, text: `Central ${payload.nome} criada!` };
+        return { status: true, text: `Entidade ${payload.nome} criada!` };
 
 
     },
@@ -107,7 +107,7 @@ module.exports = {
 
             let check =  await db.sequelize.models.Instituicoes.findAll({
                 where: {
-                    tipo_instituicao: TipoInstituicao.Central,
+                    tipo_instituicao: TipoInstituicao.Entidade,
                     cnpj: parseInt(payload.cnpj),
                     id: {
                         [Op.ne]: payload.id
@@ -117,13 +117,13 @@ module.exports = {
             if(check.length > 0)
                 return { status: false, text: `CNPJ já cadastrado no sistema` };
 
-            let Central = await db.sequelize.models.Instituicoes.findByPk(payload.id);
-            Central.nome = payload.nome;
-            Central.cnpj = parseInt(payload.cnpj);
-            Central.email = payload.email;
-            Central.telefone1 = payload.telefone1;
-            Central.telefone2 = payload.telefone2;
-            await Central.save();
+            let Entidade = await db.sequelize.models.Instituicoes.findByPk(payload.id);
+            Entidade.nome = payload.nome;
+            Entidade.cnpj = parseInt(payload.cnpj);
+            Entidade.email = payload.email;
+            Entidade.telefone1 = payload.telefone1;
+            Entidade.telefone2 = payload.telefone2;
+            await Entidade.save();
 
             let Endereco = await db.sequelize.models.Endereco.findByPk(payload.endereco.id);
             Endereco.rua = payload.endereco.rua,
@@ -140,42 +140,42 @@ module.exports = {
             return { status: false, text: "Erro interno no servidor." };
         }
 
-        return { status: true, text: `Central ${payload.nome} salva!` };
+        return { status: true, text: `Entidade ${payload.nome} salva!` };
 
 
     },
 
     async Delete(id) {
-        let Central = {};
+        let Entidade = {};
         try {
-            Central = await db.sequelize.models.Instituicoes.findByPk(id);
-            let Endereco = await db.sequelize.models.Endereco.findByPk(Central.EnderecoId);
-            await Central.destroy();
+            Entidade = await db.sequelize.models.Instituicoes.findByPk(id);
+            let Endereco = await db.sequelize.models.Endereco.findByPk(Entidade.EnderecoId);
+            await Entidade.destroy();
             await Endereco.destroy();
         } catch (error) {
             return { status: false, text: "Erro interno no servidor." };
         }
 
-        return { status: true, text: `Central ${Central.nome} removida!` };
+        return { status: true, text: `Entidade ${Entidade.nome} removida!` };
     },
 
-    async GetCentrais(search) {
+    async GetEntidades(search) {
 
         let where = {};
         let someAttributes = {};
-        where.tipo_instituicao = TipoInstituicao.Central;
+        where.tipo_instituicao = TipoInstituicao.Entidade;
 
         if (search) {
             if (search.id)
                 where.id = search.id;
 
-            if (search.nome){
+            if (search.nome) {
                 where.nome = {
                     [Op.substring]: search.nome
                 }
             }
 
-            if (search.cnpj){
+            if (search.cnpj) {
                 where.cnpj = {
                     [Op.substring]: search.cnpj
                 }
@@ -198,7 +198,9 @@ module.exports = {
                 email: s.email,
                 telefone1: s.telefone1,
                 telefone2: s.telefone2,
-                tipo_instituicao: TipoInstituicao.Central,
+                tipo_instituicao: TipoInstituicao.Entidade,
+                dt_descredenciamento: s.dt_descredenciamento,
+                motivo: s.observacao,
                 endereco: {
                     id: s.Endereco.id,
                     rua: s.Endereco.rua,
@@ -210,6 +212,45 @@ module.exports = {
                 }
             }
         });
+    },
+
+    async GetEntidade(id) {
+
+        const data = await db.sequelize.models.Instituicoes.findByPk(id);
+        return data.nome;
+    },
+
+    async Descredenciar(payload) {
+
+        try {
+            let Entidade = await db.sequelize.models.Instituicoes.findByPk(payload.id);
+            Entidade.dt_descredenciamento = new Date();
+            Entidade.observacao = payload.motivo;
+            await Entidade.save();
+            return { status: true, text: `Entidade ${Entidade.nome} descredenciada!` };
+        } catch (error) {
+            return { status: false, text: "Erro interno no servidor." };
+        }
+
+
+    },
+
+    async Credenciar(id) {
+
+        try {
+            let Entidade = await db.sequelize.models.Instituicoes.findByPk(id);
+            Entidade.dt_descredenciamento = null;
+            Entidade.observacao = null;
+            await Entidade.save();
+            return { status: true, text: `Entidade ${Entidade.nome} credenciada!` };
+        } catch (error) {
+            return { status: false, text: "Erro interno no servidor." };
+        }
+
+
     }
+
+
+    
 
 }

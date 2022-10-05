@@ -13,16 +13,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Processos.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     nro_processo: DataTypes.INTEGER,
-    prd: DataTypes.BOOLEAN,
-    prd_descricao: DataTypes.STRING,
     nro_artigo_penal: DataTypes.INTEGER,
-    inciso: DataTypes.INTEGER,
-    detalhamento: DataTypes.INTEGER,
-    persecucao_penal: DataTypes.BOOLEAN,
     pena_originaria: DataTypes.STRING,
     pena_originaria_regime: DataTypes.INTEGER,
-    horas_cumprir: DataTypes.DOUBLE
+    inciso: DataTypes.STRING,
+    detalhamento: DataTypes.STRING,
+    prd: DataTypes.BOOLEAN,
+    prd_descricao: DataTypes.STRING,
+    persecucao_penal: DataTypes.BOOLEAN,
+    horas_cumprir: DataTypes.DOUBLE,
+    qtd_penas_anteriores: DataTypes.INTEGER,
+    possui_multa: DataTypes.BOOLEAN,
+    valor_a_pagar: DataTypes.DOUBLE,
 
   }, {
     sequelize,

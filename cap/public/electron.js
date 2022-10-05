@@ -47,6 +47,7 @@ const createWindow = () => {
       contextIsolation: true,
     },
   })
+  win.maximize();
   win.loadURL(
     isDev
       ? 'http://localhost:3000'

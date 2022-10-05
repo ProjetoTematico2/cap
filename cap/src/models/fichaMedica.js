@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   FichaMedica.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     deficiencia: DataTypes.INTEGER,
     observacao: DataTypes.STRING,
     

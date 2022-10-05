@@ -4,8 +4,9 @@ const Prestadores = require('./controllers/Prestadores');
 const Login = require('./controllers/Login');
 const Cidades = require('./controllers/Cidades');
 const Centrais = require('./controllers/Centrais');
+const Processos = require('./controllers/Processos');
 const Usuarios = require('./controllers/Usuarios');
-const Instituicoes = require('./controllers/Instituicoes');
+const Entidades = require('./controllers/Entidades');
 module.exports = {
 
     async Action(controller, action, params) {
