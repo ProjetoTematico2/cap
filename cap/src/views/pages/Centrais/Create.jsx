@@ -54,15 +54,6 @@ export default function Create(props) {
             navigate("/centrais");
     }
 
-
-
-    function handleClear() {
-
-        setCentralName('');
-
-
-    }
-
     return (
         <div>
             <Title title={"Nova Central"} />

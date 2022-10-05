@@ -32,8 +32,7 @@ module.exports = {
 
         if (!payload.endereco.id_cidade)
             return { status: false, text: "Informe uma cidade" };
-
-
+        
         try {
 
             await db.sequelize.models.Endereco.create({

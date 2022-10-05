@@ -25,7 +25,6 @@ export default function Instituicoes() {
             tipo: "teste"
         }
 
-
     }
 
     return (
