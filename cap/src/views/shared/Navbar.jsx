@@ -23,17 +23,20 @@ function Navbar() {
                     <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Outros</a>
                     <ul className="dropdown-menu">
 
-                        <li className={activeMenu === 'instituicoes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
-                            <NavLink id="instituicoes" to="/instituicoes"><i className="fa-solid fa-archway"></i> Instituições</NavLink>
-                        </li>
-
                         <li className={activeMenu === 'centrais' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
                             <NavLink id="centrais" to="/centrais"><i className="fa-solid fa-archway"></i> Centrais</NavLink>
                         </li>
-
-                        <li className={activeMenu === 'atividaes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
-                            <NavLink id="atividades" to="/atividades"><i className="fa-brands fa-galactic-republic"></i> Atividades</NavLink>
+                        <li className={activeMenu === 'instituicoes' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="instituicoes" to="/instituicoes"><i className="fa-solid fa-building"></i> Instituição</NavLink>
                         </li>
+                        <li className={activeMenu === 'atividades' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="atividades" to="/atividades"><i className="fa-solid fa-clipboard-user"></i> Atividades</NavLink>
+                        </li>
+                        <li className={activeMenu === 'usuarios' ? 'active' : ''} onClick={() => { setActiveMenu('login') }}>
+                            <NavLink id="usuarios" to="/usuarios"><i className="fa-solid fa-user"></i> Usuários</NavLink>
+                        </li>
+
+
                     </ul>
                 </li>
 

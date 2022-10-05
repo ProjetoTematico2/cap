@@ -48,12 +48,6 @@ export default function Centrais(props) {
         console.log(payload);
     }
 
-    function handleClear() {
-
-        setCentralName('');
-
-
-    }
 
     return (
         <div>

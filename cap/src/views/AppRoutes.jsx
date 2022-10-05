@@ -7,8 +7,8 @@ import Home from './pages/Home';
 import Layout from './shared/Layout';
 // import Centrais from './pages/Centrais';
 import Instituicoes from './pages/Instituicoes/Index';
-import Atividades from './pages/Atividades';
 import Prestadores from './pages/Prestadores';
+import AtividadesPrestador from "./pages/AtividadesPrestador";
 import Processos from './pages/Processos';
 
 
@@ -16,6 +16,12 @@ import Processos from './pages/Processos';
 import Centrais from './pages/Centrais/Index';
 import CentraisCreate from './pages/Centrais/Create';
 import CentraisEdit from './pages/Centrais/Edit';
+
+// USUARIOS
+import Usuarios from "./pages/Usuarios/Index";
+import UsuariosCreate from "./pages/Usuarios/Create";
+import UsuariosEdit from "./pages/Usuarios/Edit";
+
 
 
 
@@ -49,11 +55,16 @@ const AppRoutes = () => {
 
 
                         <Route path="prestadores" element={<Private><Prestadores /></Private>} />
-                        <Route path="processos" element={<Private><Processos /></Private>} />
                         <Route path="centrais" element={<Private><Centrais /></Private>}/>
                         <Route path="instituicoes" element={<Private><Instituicoes /></Private>} />
-                        <Route path="atividades" element={<Private><Atividades /></Private>} />
+                        <Route path="atividades" element={<Private><AtividadesPrestador /></Private>} />
                         <Route path="processos" element={<Private><Processos /></Private>} />
+
+                        <Route path="usuarios" element={<Private><Usuarios /></Private>} />
+                        <Route path="usuarios/create" element={<Private><UsuariosCreate /></Private>}/>
+                        <Route path="usuarios/edit/:id" element={<Private><UsuariosEdit /></Private>}/>
+
+
                     </Route>
                 </Routes>
             </AuthProvider>

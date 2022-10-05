@@ -193,6 +193,7 @@ th{
 
 .login-form{
     display: flex;
+    flex-direction: column;
 }
 
 .login-form form{

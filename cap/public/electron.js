@@ -13,7 +13,7 @@ const routes = require(path.join(app.getAppPath(), './src/routes'));
 
 
 // db.sequelize
-//   .sync()
+//   .sync( )
 //   .then((result) => {
 //     console.log(db.sequelize.models);
 
