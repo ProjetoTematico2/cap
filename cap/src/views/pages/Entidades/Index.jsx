@@ -14,7 +14,7 @@ const Index = () => {
         nome: '',
         cnpj: ''
     });
-
+   
     const fetchData = async () => {
 
         const data = await window.api.Action({ controller: "Entidades", action: "GetEntidades", params: search });

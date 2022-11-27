@@ -19,5 +19,13 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+     const transaction = await queryInterface.sequelize.transaction();
+     try {
+       await queryInterface.removeColumn('Prestadores', 'TESTE', { transaction });
+       await transaction.commit();
+     } catch (err) {
+       await transaction.rollback();
+       throw err;
+     }
   }
 };

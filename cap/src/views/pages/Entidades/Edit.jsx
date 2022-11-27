@@ -15,6 +15,11 @@ export default function Edit(props) {
     const [firstPhone, setFirstPhone] = useState('88');
     const [secondPhone, setSecondPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [tarefas, setTarefas] = useState([]);
+    const [tarefaTitulo, setTarefaTitulo] = useState('');
+    const [tarefaDescricao, setTarefaDescricao] = useState('');
+    const [status, setStatus] = useState(1);
+
     const navigate = useNavigate();
 
     const [endereco, setEndereco] = useState({
@@ -26,6 +31,7 @@ export default function Edit(props) {
         complemento: '',
         id_cidade: ''
     });
+
 
 
     useEffect(() => {
@@ -47,11 +53,12 @@ export default function Edit(props) {
                 complemento: data.endereco.complemento,
                 id_cidade: data.endereco.CidadeId
             });
+            setTarefas(data.tarefa);
         }
-
         fetchData();
-
+        
     }, []);
+    
 
     const handleEndereco = (evt, name = null) => {
         const value = evt.value ?? evt.target.value;
@@ -73,8 +80,11 @@ export default function Edit(props) {
             telefone1: firstPhone,
             telefone2: secondPhone,
             email: email,
-            endereco: endereco
+            endereco: endereco,
+            tarefas: tarefas
         }
+
+       
 
         const postResult = await window.api.Action({ controller: "Entidades", action: "Edit", params: payload });
 
@@ -84,14 +94,40 @@ export default function Edit(props) {
             navigate("/entidades");
     }
 
+    
+    const addTarefa = () => {
+        let statusAlert = true;
+        let message = '';
+      
+        if (tarefaTitulo === null || tarefaTitulo === '') {
+            statusAlert = false
+            message = 'Informe um nome de titulo';
+        } else if (tarefaDescricao === null || tarefaDescricao === '') {
+            statusAlert = false
+            message = 'Informe uma descrição';
+        } else if (tarefas.find(s => s.titulo === tarefaTitulo ) ){
+            statusAlert = false
+            message = 'Titulo já inserido';
+        }
+        
+        if (!statusAlert)
+            return window.api.Alert({ statusAlert: false, text: message, title: "Atenção!" });
 
-
-    function handleClear() {
-
-        setEntidadeName('');
-
-
+        let tarefa = {
+            titulo: tarefaTitulo,
+            descricao: tarefaDescricao,
+            status: status
+        }
+       
+        setTarefas([...tarefas, tarefa]);
+       
     }
+
+    const removerTarefa = (item) => {
+        let newTarefas = tarefas.filter(s => s !== item);
+        setTarefas([...newTarefas]);
+    }
+
 
     return (
         <div>
@@ -180,9 +216,116 @@ export default function Edit(props) {
 
                 <div className="col-md-8">
                     <Endereco endereco={endereco} handleChange={handleEndereco} />
+                </div>
+
+
+                <div className="row">
+
+                    <div className="col-md-12" style={{ 'marginTop': '2rem' }}>
+                        <Label nameLabel={"Atividades da entidade"}></Label>
+
+                        <div className="input-form">
+                            <label htmlFor="tarefaTitulo">Título</label>
+                            <input
+                                id="tarefaTitulo"
+                                className="form-control input rounded-2"
+                                type="text"
+                                placeholder="Titulo"
+                                value={tarefaTitulo}
+                                required={true}
+                                onChange={(e) => setTarefaTitulo(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="input-form">
+                            <label htmlFor="tarefaDescricao">Descrição</label>
+                            <input
+                                id="tarefaDescricao"
+                                className="form-control input rounded-2"
+                                type="text"
+                                placeholder="Descrição"
+                                required={false}
+                                value={tarefaDescricao}
+                                onChange={(e) => setTarefaDescricao(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="input-form my-2">
+                            <label htmlFor="status">Status</label>
+
+                            <label className="label-radio">
+                                Ativo
+                                <input
+                                    className="radio"
+                                    type="radio"
+                                    name="status"
+                                    value="1"
+                                    defaultChecked={true}
+                                    onChange={(e) => setStatus(e.target.value)}
+                                />
+                            </label>
+
+                            <label className="label-radio">
+                                Inativo
+                                <input
+                                    className="radio"
+                                    type="radio"
+                                    name="status"
+                                    value="0"
+                                    onChange={(e) => setStatus(e.target.value)}
+                                />
+                            </label>
+
+                            <button type="button" className='btn btn-dark-blue mx-2' onClick={addTarefa} ><i className='fa fa-plus'></i> Adicionar Tarefa</button>
+                        </div>
+
+
+                    </div>
+
+                    <div className="row">
+
+                        <div className="col-md-12">
+                            {
+                                tarefas.length > 0 ?
+                                    <table className="table table-border">
+                                        <thead>
+                                            <tr>
+                                                <td>Titulo</td>
+                                                <td>Descricao</td>
+                                                <td>Status</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                tarefas.map((s, i) => (
+                                                    <tr key={i} >
+                                                        <td>
+                                                            {s.titulo}
+                                                        </td>
+                                                        <td>
+                                                            {s.descricao ?? "--"}
+                                                        </td>
+                                                        <td>
+                                                            {s.status === 1 ? 'Ativo' : 'Inativo'}
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" className="btn btn-danger pull-right mx-2" onClick={() => { removerTarefa(s) }}><i className="fa-solid fa-trash"></i> Excluir</button>
+
+
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table> : <span></span>}
+                        </div>
+
+                    </div>
 
 
                 </div>
+
+
 
                 <div className="row">
                     <div className="col-md-12 btn-inline" style={{ 'marginTop': '2rem' }}>

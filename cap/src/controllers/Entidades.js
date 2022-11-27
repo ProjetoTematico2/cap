@@ -2,6 +2,7 @@ const db = require('../models/index');
 const { Op } = require("sequelize");
 const { TipoInstituicao } = require('../utils/enums');
 
+
 module.exports = {
 
     async Create(payload) {
@@ -15,7 +16,7 @@ module.exports = {
         if (!payload.cnpj)
             return { status: false, text: "Informe um CNPJ" };
 
-        if (!payload.telefone1 && !payload.telefone2)
+        if (!payload.telefone1 || !payload.telefone2)
             return { status: false, text: "Informe um telefone" };
 
         if (!payload.endereco)
@@ -35,13 +36,14 @@ module.exports = {
 
 
         try {
-            let check =  await db.sequelize.models.Instituicoes.findAll({
+            let Instituicao = null;
+            let check = await db.sequelize.models.Instituicoes.findAll({
                 where: {
                     tipo_instituicao: TipoInstituicao.Entidade,
                     cnpj: parseInt(payload.cnpj)
                 }
             })
-            if(check.length > 0)
+            if (check.length > 0)
                 return { status: false, text: `CNPJ já cadastrado no sistema` };
 
             await db.sequelize.models.Endereco.create({
@@ -53,7 +55,7 @@ module.exports = {
                 complemento: payload.endereco.complemento,
                 CidadeId: payload.endereco.id_cidade
             }).then(async (endereco) => {
-                await db.sequelize.models.Instituicoes.create({
+                Instituicao = await db.sequelize.models.Instituicoes.create({
                     nome: payload.nome,
                     cnpj: parseInt(payload.cnpj),
                     email: payload.email,
@@ -64,8 +66,24 @@ module.exports = {
                 });
             });
 
+            if (payload.tarefas.length > 0) {
+                for (let i = 0; i < payload.tarefas.length; i++) {
+
+                    const tarefa = payload.tarefas[i];
+
+                    await db.sequelize.models.Tarefa.create({
+                        InstituicoId: Instituicao.id,
+                        titulo: tarefa.tarefaTitulo,
+                        descricao: tarefa.tarefaDescricao,
+                        status: parseInt(tarefa.status)
+                    })
+
+                }
+            }
+
+
         } catch (error) {
-            return { status: false, text: "Erro interno no servidor." };
+            return { status: false, text: "Erro interno no servidor" };
         }
 
         return { status: true, text: `Entidade ${payload.nome} criada!` };
@@ -84,7 +102,7 @@ module.exports = {
         if (!payload.cnpj)
             return { status: false, text: "Informe um CNPJ" };
 
-        if (!payload.telefone1 && !payload.telefone2)
+        if (!payload.telefone1 || !payload.telefone2)
             return { status: false, text: "Informe um telefone" };
 
         if (!payload.endereco)
@@ -105,7 +123,7 @@ module.exports = {
 
         try {
 
-            let check =  await db.sequelize.models.Instituicoes.findAll({
+            let check = await db.sequelize.models.Instituicoes.findAll({
                 where: {
                     tipo_instituicao: TipoInstituicao.Entidade,
                     cnpj: parseInt(payload.cnpj),
@@ -114,7 +132,7 @@ module.exports = {
                     }
                 }
             })
-            if(check.length > 0)
+            if (check.length > 0)
                 return { status: false, text: `CNPJ já cadastrado no sistema` };
 
             let Entidade = await db.sequelize.models.Instituicoes.findByPk(payload.id);
@@ -133,6 +151,34 @@ module.exports = {
                 Endereco.complemento = payload.endereco.complemento,
                 Endereco.CidadeId = payload.endereco.id_cidade;
             await Endereco.save();
+
+
+            if (payload.tarefas.length > 0) {
+                await db.sequelize.models.Tarefa.destroy({
+                    where: {
+                        InstituicoId: Entidade.id
+                    }
+                })
+                for (let i = 0; i < payload.tarefas.length; i++) {
+
+                    const tarefa = payload.tarefas[i];
+
+                    await db.sequelize.models.Tarefa.create({
+                        InstituicoId: Entidade.id,
+                        titulo: tarefa.titulo,
+                        descricao: tarefa.descricao,
+                        status: parseInt(tarefa.status)
+                    })
+
+                }
+            } else {
+                await db.sequelize.models.Tarefa.destroy({
+                    where: {
+                        InstituicoId: Entidade.id
+                    }
+                })
+            }
+
 
 
 
@@ -187,8 +233,12 @@ module.exports = {
         const data = await db.sequelize.models.Instituicoes.findAll({
 
             where: where,
-            include: [db.sequelize.models.Endereco],
+            include: [
+                { model: db.sequelize.models.Endereco },
+                { model: db.sequelize.models.Tarefa }
+            ],
         });
+
 
         return data.map(s => {
             return {
@@ -209,7 +259,15 @@ module.exports = {
                     bairro: s.Endereco.bairro,
                     complemento: s.Endereco.complemento,
                     CidadeId: s.Endereco.CidadeId,
-                }
+                },
+                tarefa: s.Tarefas.map(a => {
+                    return {
+                        id: a.id,
+                        titulo: a.titulo,
+                        descricao: a.descricao,
+                        status: a.status
+                    }
+                }),
             }
         });
     },
@@ -251,6 +309,6 @@ module.exports = {
     }
 
 
-    
+
 
 }

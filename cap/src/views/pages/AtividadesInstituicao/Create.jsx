@@ -1,6 +1,6 @@
-import Title from "../shared/Title";
-import Label from "../shared/Label";
-import Buttons from "../shared/Buttons";
+import Title from "../../shared/Title";
+import Label from "../../shared/Label";
+import Buttons from "../../shared/Buttons";
 
 export default function AtividadesInstituicao() {
     return (

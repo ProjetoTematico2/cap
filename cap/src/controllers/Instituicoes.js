@@ -21,7 +21,7 @@ module.exports = {
         try {
 
 
-            await db.sequelize.models.Instituicoes.create({
+            const instituicao = await db.sequelize.models.Instituicoes.create({
                 nome: payload.nome,
                 cnpj: parseInt(payload.cnpj),
                 email: payload.email,
@@ -31,12 +31,11 @@ module.exports = {
                 tipo_instituicao: TipoInstituicao.Entidade
             });
 
+            return { status: true, text: `Instituicao ${payload.nome} criada!`, id: instituicao.id };
 
         } catch (error) {
-            return { status: false, text: "Erro interno no servidor." };
+            return { status: false, text: error.message };
         }
-
-        return { status: true, text: `Instituicao ${payload.nome} criada!` };
 
 
     },

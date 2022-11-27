@@ -8,7 +8,6 @@ import Layout from './shared/Layout';
 // import Centrais from './pages/Centrais';
 // import Instituicoes from './pages/Instituicoes/Index';
 import AtividadesPrestador from './pages/AtividadesPrestador';
-import AtividadesInstituicao from './pages/AtividadesInstituicao';
 //import Prestadores from './pages/Prestadores';
 
 
@@ -37,6 +36,10 @@ import UsuariosEdit from "./pages/Usuarios/Edit";
 import Instituicoes from "./pages/Instituicoes/Index";
 import InstituicoesCreate from "./pages/Instituicoes/Create";
 import InstituicoesEdit from "./pages/Instituicoes/Edit";
+
+// ATIVIDADES DA INSTITUICAO
+
+import AtividadesInstituicaoCreate from "./pages/AtividadesInstituicao/Create";
 
 // ENTIDADES
 import Entidades from "./pages/Entidades/Index";
@@ -75,7 +78,7 @@ const AppRoutes = () => {
                         <Route path="instituicoes/create" element={<Private><InstituicoesCreate /></Private>} />
                         <Route path="instituicoes/edit/:id" element={<Private><InstituicoesEdit /></Private>} />
 
-
+                        <Route path="atividadesInstituicoes/create/:id" element={<Private><AtividadesInstituicaoCreate /></Private>} />
 
                         <Route path="centrais" element={<Private><Centrais /></Private>}/>
                         <Route path="centrais/create" element={<Private><CentraisCreate /></Private>}/>
@@ -102,7 +105,6 @@ const AppRoutes = () => {
                         
                       
                         <Route path="AtividadesPrestador" element={<Private><AtividadesPrestador /></Private>} />
-                        <Route path="atividadesInstituicao" element={<Private><AtividadesInstituicao /></Private>} />
 
                         
                     </Route>
