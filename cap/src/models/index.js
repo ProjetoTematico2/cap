@@ -7,7 +7,6 @@ const basename = path.basename(__filename);
 
 const db = {};
 let sequelize;
-
 if (cAPP.config.mode == 0) {
   const env = process.env.NODE_ENV || 'development';
   const config = require(__dirname + '/../config/config.json')[env];

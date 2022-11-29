@@ -2,10 +2,14 @@
 const { app, BrowserWindow, ipcMain, Notification } = require('electron')
 const isDev = require("electron-is-dev");
 const path = require('path');
-const db = require('../src/models/index');
-const authentication = require('../src/authentication');
+
 const cAPP = require('../src/app');
 cAPP.setConfig();
+
+
+const db = require('../src/models/index');
+const authentication = require('../src/authentication');
+
 
 console.log("aaaa", cAPP);
 
@@ -34,8 +38,6 @@ const checkDatabase = async ()=>{
     if(rootUser == null){
       
     }
-
-    console.log(rootUser);
 
 
 

@@ -17,14 +17,18 @@ class Auth {
     }
 
     static async authenticate(usuario, senha) {
+     
         this.is_authenticated = false;
         this.id_logged_user = null;
+
         var user = await db.sequelize.models.Usuario.findOne({
             where: {
                 usuario: usuario
             }
         });
+        console.log(user);
         if (user) {
+          
             const isValid = bcrypt.compareSync(senha, user.senha);
             if (isValid) {
                 this.is_authenticated = true;
