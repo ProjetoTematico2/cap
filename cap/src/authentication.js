@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const db = require('./models/index');
+const cAPP = require('../src/app');
 
 class Auth {
     static is_authenticated = false;
@@ -34,7 +35,7 @@ class Auth {
         if (!this.is_authenticated)
             return { status: false };
 
-        return { status: true, user: {id: user.id, name: user.nome} }
+        return { status: true, user: {id: user.id, name: user.nome, appMode: cAPP.config.mode } }
     }
 
 }

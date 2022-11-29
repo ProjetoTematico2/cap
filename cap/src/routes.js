@@ -1,20 +1,49 @@
 const path = require('path');
+const cAPP = require('./app');
 
-const Prestadores = require('./controllers/Prestadores');
 const Login = require('./controllers/Login');
-const Cidades = require('./controllers/Cidades');
-const Centrais = require('./controllers/Centrais');
-const Processos = require('./controllers/Processos');
 const Usuarios = require('./controllers/Usuarios');
-const Entidades = require('./controllers/Entidades');
-module.exports = {
 
-    async Action(controller, action, params) {
-        return await eval(`${controller}.${action}`)(params).then((results)=>{
-            return (results);
-          });
+console.log("bbb", cAPP.config.mode);
+if(cAPP.config.mode == 0){
+    
+    const Prestadores = require('./controllers/central/Prestadores');
+    const Cidades = require('./controllers/central/Cidades');
+    const Centrais = require('./controllers/central/Centrais');
+    const Processos = require('./controllers/central/Processos');
+    const Entidades = require('./controllers/central/Entidades');
+
+    module.exports = {
+
+        async Action(controller, action, params) {
+            return await eval(`${controller}.${action}`)(params).then((results)=>{
+                return (results);
+              });
+        
+        }
     
     }
+    
+}
+else if(cAPP.config.mode == 1){
+
+    module.exports = {
+
+        async Action(controller, action, params) {
+            return await eval(`${controller}.${action}`)(params).then((results)=>{
+                return (results);
+              });
+        
+        }
+    
+    }
+    
 
 }
+
+
+
+
+
+
 

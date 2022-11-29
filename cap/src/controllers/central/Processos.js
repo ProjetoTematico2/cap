@@ -1,5 +1,5 @@
-const db = require('../models/index');
-const { TipoInstituicao } = require('../utils/enums');
+const db = require('../../models/index');
+const { TipoInstituicao } = require('../../utils/enums');
 const { Op } = require("sequelize");
 module.exports = {
 

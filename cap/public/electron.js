@@ -4,12 +4,16 @@ const isDev = require("electron-is-dev");
 const path = require('path');
 const db = require('../src/models/index');
 const authentication = require('../src/authentication');
+const cAPP = require('../src/app');
+cAPP.setConfig();
 
-
+console.log("aaaa", cAPP);
 
 const associate = require('../src/models/associations/sequelizeAssociations');
 
 const routes = require(path.join(app.getAppPath(), './src/routes'));
+
+
 
 
 // db.sequelize
@@ -23,16 +27,22 @@ const routes = require(path.join(app.getAppPath(), './src/routes'));
 //     console.log(err);
 //   });
 
-// const testConnetion = async ()=>{
-//    try {
-//     //await db.sequelize.authenticate();
-//     await db.sequelize.sync({ force: true });
-//     //console.log("All models were synchronized successfully.");
-//     console.log('Connection has been established successfully.');
-//   } catch (error) {
-//     console.error('Unable to connect to the database:', error);
-//   }
-// }
+const checkDatabase = async ()=>{
+   try {
+    // await db.sequelize.sync();
+    var rootUser = await db.sequelize.models.Usuario.findByPk(1);
+    if(rootUser == null){
+      
+    }
+
+    console.log(rootUser);
+
+
+
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
 let win = null;
 const createWindow = () => {
   win = new BrowserWindow({
@@ -62,7 +72,9 @@ const createWindow = () => {
   }
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+
+  await checkDatabase();
 
   createWindow()
 
@@ -104,6 +116,11 @@ ipcMain.handle('action', async (event, args) => {
   const routesResult = await routes.Action(args.controller, args.action, args.params);
   return routesResult;
 
+})
+
+ipcMain.handle('app', async (event, args) => {
+  
+  return cAPP.config;
 })
 
 

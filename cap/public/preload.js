@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
 contextBridge.exposeInMainWorld('api', {
 
     Action: (args) =>  ipcRenderer.invoke('action', args), 
+    App: () =>  ipcRenderer.invoke('app'),  
     Alert: (args) =>  ipcRenderer.invoke('alert', args), 
     
 

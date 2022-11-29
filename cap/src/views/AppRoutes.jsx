@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, AuthContext } from './contexts/auth';
+import { useState, useEffect } from "react";
 
 import Login from './pages/Login';
 import Home from './pages/Home';
@@ -50,6 +51,20 @@ import EntidadesDescredenciar from "./pages/Entidades/Descredenciar";
 
 const AppRoutes = () => {
 
+    const getConfig = async () => {
+        let config = await window.api.App();
+        return config;
+    }
+ 
+    var config = getConfig();
+    console.log(config);
+    // useEffect(() => {
+
+
+    //     fetchData();
+
+    // }, null);
+
     const Private = ({ children }) => {
         const { authenticated, loading } = useContext(AuthContext);
 
@@ -71,6 +86,8 @@ const AppRoutes = () => {
                     <Route exact path='/' element={<Private><Layout /></Private>}>
                         <Route index element={<Private><Home /></Private>} />
 
+                    
+
                         
                         <Route path="atividades" element={<Private><AtividadesPrestador /></Private>} />
                         
@@ -84,11 +101,9 @@ const AppRoutes = () => {
                         <Route path="centrais/create" element={<Private><CentraisCreate /></Private>}/>
                         <Route path="centrais/edit/:id" element={<Private><CentraisEdit /></Private>}/>
 
-                        
                         <Route path="prestadores" element={<Private><Prestadores /></Private>} />
                         <Route path="prestadores/create" element={<Private><PrestadoresCreate /></Private>} />
                         <Route path="prestadores/edit/:id" element={<Private><PrestadoresEdit /></Private>}/>
-
 
                         <Route path="processos" element={<Private><Processos /></Private>} />
                         <Route path="processos/create/:id" element={<Private><ProcessosCreate /></Private>} />
