@@ -67,7 +67,7 @@ const Create = (props) => {
         let statusAlert = true;
         let message = '';
 
-        console.log(tarefas)
+        
         if (tarefaTitulo ===null || tarefaTitulo === '' ) {
             statusAlert = false
             message = 'Informe um nome de titulo';

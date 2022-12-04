@@ -59,6 +59,9 @@ models.Processos.hasOne(models.AtestadoComparecimento);
 
 models.Usuario.belongsTo(models.Instituicoes);
 
+models.Agendamentos.belongsTo(models.Processos);
+models.Agendamentos.belongsTo(models.Tarefa);
+
 
 
 

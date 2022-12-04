@@ -12,6 +12,7 @@ if(cAPP.config.mode == 0){
     const Centrais = require('./controllers/central/Centrais');
     const Processos = require('./controllers/central/Processos');
     const Entidades = require('./controllers/central/Entidades');
+    const Agendamentos = require('./controllers/central/Agendamentos');
 
     module.exports = {
 

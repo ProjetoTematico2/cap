@@ -110,7 +110,7 @@ module.exports = {
 
             return {
                 value: s.id,
-                label: s.nome
+                label: s.nome,
             }
 
         });
@@ -118,6 +118,44 @@ module.exports = {
         array.unshift({ value: null, label: '' })
 
         return array;
+    },
+
+    async GetProcessosLabel(search) {
+
+        const data = await db.sequelize.models.Processos.findAll({
+            where: {
+                PrestadoreId: search.value
+            },
+        });
+
+        let array = data.map(s => {
+
+            return {
+                value: s.id,
+                label: s.nro_processo
+            }
+
+        });
+
+        return array;
+
+    },
+
+
+    async GetPrestadorLabel(search) {
+        const data = await db.sequelize.models.Processos.findOne({
+            where: {
+                PrestadoreId: search.value
+            },
+            include: { model: db.sequelize.models.Prestadores }
+        });
+     
+       const prestador =  {
+            value: data.Prestadore.dataValues.id,
+            label: data.Prestadore.dataValues.nome
+        }
+
+        return prestador;
     },
 
     async Create(payload) {

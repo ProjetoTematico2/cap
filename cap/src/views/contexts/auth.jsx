@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }) => {
 
         if (authenticated.status) {
             // localStorage.setItem('user', JSON.stringify(authenticated.user));
-            debugger;
             console.log(authenticated);
             setUser(authenticated.user);
             navigate('/');

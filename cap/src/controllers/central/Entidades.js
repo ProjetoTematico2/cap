@@ -205,6 +205,26 @@ module.exports = {
         return { status: true, text: `Entidade ${Entidade.nome} removida!` };
     },
 
+    async GetTarefasLabel() {
+        const data = await db.sequelize.models.Tarefa.findAll({
+            include: [   { model: db.sequelize.models.Instituicoes }]
+        });
+
+    
+        let array = data.map(s => {
+
+            return {
+                value: s.id,
+                label: s.titulo,
+                instituicaoTarefaId: s.Instituico.id,
+                instituicoes: s.Instituico.dataValues
+            }
+
+        });
+
+        return array;
+    },
+
     async GetEntidades(search) {
 
         let where = {};
