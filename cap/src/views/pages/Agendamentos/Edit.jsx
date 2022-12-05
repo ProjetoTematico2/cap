@@ -42,10 +42,10 @@ export default function Edit(props) {
 
             let agenda = {
                 id: data.id,
-                horario_inicio: data.horario_inicio,
-                horario_fim: data.horario_fim,
-                data_inicial: data.data_inicial,
-                trabalho_dias_semana: data.trabalho_dias_semana,
+                agendamento_horario_inicio: data.agendamento_horario_inicio,
+                agendamento_horario_fim: data.agendamento_horario_fim,
+                agendamento_dia_inicial: data.agendamento_dia_inicial,
+                agendamento_dias_semana: data.agendamento_dias_semana,
             }
 
             let processosLabel = {
@@ -60,14 +60,14 @@ export default function Edit(props) {
 
             
             
-            setAgendamento_horario_inicio(data.horario_inicio);
-            setAgendamento_horario_fim(data.horario_fim);
-            setAgendamento_dia_inicial(data.data_inicial);
-            setAgendamento_dias_semana(data.trabalho_dias_semana);
+            setAgendamento_horario_inicio(data.agendamento_horario_inicio);
+            setAgendamento_horario_fim(data.agendamento_horario_fim);
+            setAgendamento_dia_inicial(data.agendamento_dia_inicial);
+            setAgendamento_dias_semana(data.agendamento_dias_semana);
             
             setTarefas([processosLabel]);
             setProcessos([tarefasLabel]);
-            setAgendamentos([agenda]); 
+            setAgendamentos(agenda); 
             setPrestadores([prestadorLabel]);
             
         }
@@ -82,27 +82,14 @@ export default function Edit(props) {
 
     const handleSubmit = async () => {
 
-
-
         const payload = {
             search: search,
             agendamentos: agendamentos
         }
+
         agendamentoPayload();
-        console.log(payload.agendamentos[0].trabalho_dias_semana)
-
-        payload.agendamentos[0].trabalho_dias_semana =  payload.agendamentos[0].trabalho_dias_semana.map( (e) => {
-            if (e == null){
-                return  { value: 0, label: '' }
-            } else{
-                return { value: e.value, label: e.label }
-            }
-
-        })
-
         console.log(payload);
         const postResult = await window.api.Action({ controller: "Agendamentos", action: "Edit", params: payload });
-
         window.api.Alert({ status: postResult.status, text: postResult.text, title: postResult.status ? "Sucesso!" : "Erro!" });
 
         // if (postResult.status)
@@ -112,20 +99,25 @@ export default function Edit(props) {
 
     function agendamentoPayload() {
         // VERIFICAR CAMPOS !!!
-        let agendamento = {
-            agendamento_horario_inicio: agendamento_horario_inicio,
-            agendamento_horario_fim: agendamento_horario_fim,
-            agendamento_dia_inicial: agendamento_dia_inicial,
-            agendamento_dias_semana: agendamento_dias_semana
-        }
-        setAgendamentos(agendamento);
+        // let agendamento = {
+        //     agendamento_horario_inicio: agendamento_horario_inicio,
+        //     agendamento_horario_fim: agendamento_horario_fim,
+        //     agendamento_dia_inicial: agendamento_dia_inicial,
+        //     agendamento_dias_semana: agendamento_dias_semana
+        // }
+        setAgendamentos({
+            ["id"]: agendamentos.id,
+            ["agendamento_horario_inicio"]: agendamento_horario_inicio,
+            ["agendamento_horario_fim"]: agendamento_horario_fim,
+            ["agendamento_dia_inicial"]: agendamento_dia_inicial,
+            ["agendamento_dias_semana"]: agendamento_dias_semana
+        });
     }
 
     const handleDias = (value) => {
         setAgendamento_dias_semana(
             value.sort((a, b) => (a.value > b.value) ? 1 : ((b.value > a.value) ? -1 : 0))
         )
-        // agendamentoPayload();
     }
 
 

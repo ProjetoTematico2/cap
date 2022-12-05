@@ -10,37 +10,15 @@ import Title from "../../shared/Title";
 export default function Index(props) {
 
     const navigate = useNavigate();
-
-    const [prestador, setPrestador] = useState([]);
-    const [processo, setProcesso] = useState([]);
     const [agendamentos, setAgendamentos] = useState([]);
     const [search, setSearch] = useState({
         processo: ''
     });
 
     const fetchData = async () => {
-
         const data = await window.api.Action({ controller: "Agendamentos", action: "GetAgendamentos", params: search });
         setAgendamentos(data);
 
-        // const agenda = data.map((e) => {
-        //     console.log(e);
-        //     if (e.processo !== null) {
-        //         setAgendamentos({
-        //             ["nro_processo"]: e.processo.dataValues.nro_processo,
-        //             ["agendamento"]: e.dataValues
-        //         })
-        //     }
-        // })
-
-
-
-        // let processos = data.map((e) => {
-        //     if (e.processo != null) {
-        //         return e.processo.dataValues;
-        //     }
-        // })
-        // processos = processos.filter((e) => { return e != undefined });
     }
 
     useEffect(() => {
@@ -134,8 +112,8 @@ export default function Index(props) {
                                 <tr key={r.id}>
                                     <td>{r.id}</td>
                                     <td>{r.processo.dataValues.nro_processo }</td>
-                                    <td>{r.horario_inicio}</td>
-                                    <td>{r.horario_fim}</td>
+                                    <td>{r.agendamento_horario_inicio}</td>
+                                    <td>{r.agendamento_horario_fim}</td>
                                     <td>
                                         <div className="btn-group" role="group">
 

@@ -8,7 +8,7 @@ module.exports = {
         try {
 
             // let check = await db.sequelize.models.Agendamentos.findAll()
-        
+
             await db.sequelize.models.Agendamentos.create({
 
                 data_inicial: payload.agendamentos.agendamento_dia_inicial,
@@ -45,27 +45,30 @@ module.exports = {
             //         }
             //     }
             // })
-           
-            let Agendamento = await db.sequelize.models.Agendamentos.findByPk(payload.agendamentos[0].id);
-  
-            Agendamento.data_inicial = payload.agendamentos[0].data_inicial,
-            Agendamento.horario_inicio = payload.agendamentos[0].horario_inicio,
-            Agendamento.horario_fim = payload.agendamentos[0].horario_fim,
-            Agendamento.segunda = payload.agendamentos.trabalho_dias_semana.filter(s => s.value === 0).length > 0,
-            Agendamento.terca = payload.agendamentos.trabalho_dias_semana.filter(s => s.value === 1).length > 0,
-            Agendamento.quarta = payload.agendamentos.trabalho_dias_semana.filter(s => s.value === 2).length > 0,
-            Agendamento.quinta = payload.agendamentos.trabalho_dias_semana.filter(s => s.value === 3).length > 0,
-            Agendamento.sexta = payload.agendamentos.trabalho_dias_semana.filter(s => s.value === 4).length > 0,
-            Agendamento.sabado = payload.agendamentos.trabalho_dias_semana.filter(s => s.value === 5).length > 0,
-            Agendamento.domingo = payload.agendamentos.trabalho_dias_semana.filter(s => s.value === 6).length > 0,
-            Agendamento.ProcessoId = payload.search.id_processo.value,
-            Agendamento.TarefaId = payload.search.id_tarefa.value
+            console.log(payload.agendamentos);
+            
+            let Agendamento = await db.sequelize.models.Agendamentos.findByPk(payload.agendamentos.id);
+
+        
+    
+            Agendamento.data_inicial = payload.agendamentos.agendamento_dia_inicial,
+                Agendamento.horario_inicio = payload.agendamentos.agendamento_horario_inicio,
+                Agendamento.horario_fim = payload.agendamentos.agendamento_horario_fim,
+                Agendamento.segunda = payload.agendamentos.agendamento_dias_semana.filter(s => s.value === 0).length > 0,
+                Agendamento.terca = payload.agendamentos.agendamento_dias_semana.filter(s => s.value === 1).length > 0,
+                Agendamento.quarta = payload.agendamentos.agendamento_dias_semana.filter(s => s.value === 2).length > 0,
+                Agendamento.quinta = payload.agendamentos.agendamento_dias_semana.filter(s => s.value === 3).length > 0,
+                Agendamento.sexta = payload.agendamentos.agendamento_dias_semana.filter(s => s.value === 4).length > 0,
+                Agendamento.sabado = payload.agendamentos.agendamento_dias_semana.filter(s => s.value === 5).length > 0,
+                Agendamento.domingo = payload.agendamentos.agendamento_dias_semana.filter(s => s.value === 6).length > 0,
+                Agendamento.ProcessoId = payload.search.id_processo.value,
+                Agendamento.TarefaId = payload.search.id_tarefa.value
             await Agendamento.save();
 
 
 
         } catch (error) {
-            return { status: false, text: "Erro interno no servidor. " + error.message  };
+            return { status: false, text: "Erro interno no servidor. " + error.message };
         }
 
         return { status: true, text: `Agendamento Editado` };
@@ -91,7 +94,7 @@ module.exports = {
         let someAttributes = {};
 
         if (search) {
-            if (search.id){
+            if (search.id) {
                 where.id = search.id;
             }
 
@@ -108,21 +111,21 @@ module.exports = {
         return data.map(s => {
             let agendamentos = {
                 id: s.id,
-                horario_inicio: s.horario_inicio,
-                horario_fim: s.horario_fim,
-                data_inicial: s.data_inicial,
-                trabalho_dias_semana: [
-                    s.segunda ? { value: 0, label: "Segunda-feira" } : {value: 0, label: "Segunda-feira"},
-                    s.terca ? { value: 1, label: "Terça-feira" } : { value: 0, label: "Terça-feira" },
-                    s.quarta ? { value: 2, label: "Quarta-feira" } : { value: 0, label: "Quarta-feira" },
-                    s.quinta ? { value: 3, label: "Quinta-feira" } : { value: 0, label: "Quinta-feira" },
-                    s.sexta ? { value: 4, label: "Sexta-feira" } : { value: 0, label: "Sexta-feira" },
-                    s.sabado ? { value: 5, label: "Sábado" } : { value: 0, label: "Sábado" },
-                    s.domingo ? { value: 6, label: "Domingo" } : { value: 0, label: "Domingo" },
+                agendamento_horario_inicio: s.horario_inicio,
+                agendamento_horario_fim: s.horario_fim,
+                agendamento_dia_inicial: s.data_inicial,
+                agendamento_dias_semana: [
+                    s.segunda ? { value: 0, label: "Segunda-feira" } : false,
+                    s.terca ? { value: 1, label: "Terça-feira" } : false,
+                    s.quarta ? { value: 2, label: "Quarta-feira" } : false,
+                    s.quinta ? { value: 3, label: "Quinta-feira" } : false,
+                    s.sexta ? { value: 4, label: "Sexta-feira" } : false,
+                    s.sabado ? { value: 5, label: "Sábado" } : false,
+                    s.domingo ? { value: 6, label: "Domingo" } : false
                 ],
                 processo_id: s.ProcessoId,
                 tarefa_id: s.TarefaId,
-                tarefa: s.Tarefa ,
+                tarefa: s.Tarefa,
                 processo: s.Processo
             }
             return agendamentos;
