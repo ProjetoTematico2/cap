@@ -331,6 +331,7 @@ export default function Edit(props) {
                                     name="agendamento_dia_inicial"
                                     className="form-control input rounded-2"
                                     type="date"
+                                    min={new Date().toISOString().split('T')[0]}
                                     value={agendamento_dia_inicial}
                                     onChange={(e) => setAgendamento_dia_inicial(e.target.value)}
                                 />
