@@ -31,6 +31,10 @@ export default function Create() {
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
+        agendamentoPayload();
+        console.log(agendamentos);
+
+
         const payload = {
             search: search,
             agendamentos: agendamentos
@@ -44,8 +48,8 @@ export default function Create() {
         const postResult = await window.api.Action({ controller: "Agendamentos", action: "Create", params: payload });
         window.api.Alert({ status: postResult.status, text: postResult.text, title: postResult.status ? "Sucesso!" : "Erro!" });
 
-        // if (postResult.status)
-        //     navigate("/agendamentos/create");
+        if (postResult.status)
+            navigate("/agendamentos/");
 
     }
 
@@ -75,7 +79,6 @@ export default function Create() {
 
 
     function agendamentoPayload() {
-
         let agendamento = {
             agendamento_horario_inicio: agendamento_horario_inicio,
             agendamento_horario_fim: agendamento_horario_fim,
@@ -84,12 +87,11 @@ export default function Create() {
         }
 
         setAgendamentos(agendamento);
+
     }
 
     const handleDias = (value) => {
-
         setAgendamento_dias_semana(value.sort((a, b) => (a.value > b.value) ? 1 : ((b.value > a.value) ? -1 : 0)))
-        agendamentoPayload();
     }
 
 

@@ -17,7 +17,10 @@ module.exports = {
                 return { status: false, text: `Selecione a instituição` };
             } else if (payload.agendamentos.data_inicial < new Date().getDate()) {
                 return { status: false, text: `Revise as datas` };
+            }else if (payload.agendamentos.agendamento_dias_semana.length <= 0){
+                return { status: false, text: `Selecione os dias da semana das tarefas` };
             }
+
 
 
             await db.sequelize.models.Agendamentos.create({
@@ -61,6 +64,8 @@ module.exports = {
                 return { status: false, text: `Selecione a instituição` };
             } else if (payload.agendamentos.data_inicial < new Date().getDate()) {
                 return { status: false, text: `Revise as datas` };
+            } else if (payload.agendamentos.agendamento_dias_semana.length <= 0){
+                return { status: false, text: `Selecione os dias da semana das tarefas` };
             }
 
 
