@@ -35,8 +35,10 @@ export default function Edit(props) {
 
         const fetchData = async () => {
             let data = await window.api.Action({ controller: "Agendamentos", action: "GetAgendamentos", params: { id: id } });
-            let prestadorLabel = await window.api.Action({ controller: "Processos", action: "GetPrestadorLabel", 
-            params: { value: data[0].processo.dataValues.PrestadoreId } });
+            let prestadorLabel = await window.api.Action({
+                controller: "Processos", action: "GetPrestadorLabel",
+                params: { value: data[0].processo.dataValues.PrestadoreId }
+            });
 
             data = data[0];
 
@@ -58,26 +60,26 @@ export default function Edit(props) {
                 value: data.tarefa.dataValues.id
             }
 
-            
-            
+
+
             setAgendamento_horario_inicio(data.agendamento_horario_inicio);
             setAgendamento_horario_fim(data.agendamento_horario_fim);
             setAgendamento_dia_inicial(data.agendamento_dia_inicial);
             setAgendamento_dias_semana(data.agendamento_dias_semana);
-            
+
             setTarefas([processosLabel]);
             setProcessos([tarefasLabel]);
-            setAgendamentos(agenda); 
+            setAgendamentos(agenda);
             setPrestadores([prestadorLabel]);
-            
+
         }
-        
+
         fetchData();
 
-        
+
     }, []);
-    
-   
+
+
 
 
     const handleSubmit = async () => {
@@ -87,24 +89,48 @@ export default function Edit(props) {
             agendamentos: agendamentos
         }
 
+        if (verificaDatas() == true) {
+            window.api.Alert({ status: false, text: "Horário inicial inferior ou igual ao horário final", title: "Erro!" });
+            return;
+        }
+
+
         agendamentoPayload();
-        console.log(payload);
         const postResult = await window.api.Action({ controller: "Agendamentos", action: "Edit", params: payload });
         window.api.Alert({ status: postResult.status, text: postResult.text, title: postResult.status ? "Sucesso!" : "Erro!" });
 
-        // if (postResult.status)
-        //     navigate("/agendamentos");
+        if (postResult.status)
+            navigate("/agendamentos");
 
     }
 
+    function verificaDatas() {
+        let horasInicial = agendamento_horario_inicio.slice(0, 2);
+        let minutosInicial = agendamento_horario_inicio.slice(3, 5);
+
+        let horasFinal = agendamento_horario_fim.slice(0, 2);
+        let minutosFinal = agendamento_horario_fim.slice(3, 5);
+
+        let horasInicialSegundos = parseInt(horasInicial) * 3600;
+        let minutosInicialSegundos = parseInt(minutosInicial) * 60;
+
+        let horasFinalSegundos = parseInt(horasFinal) * 3600;
+        let minutosFinalSegundos = parseInt(minutosFinal) * 60;
+
+        const segundosIniciais = horasInicialSegundos + minutosInicialSegundos;
+        const segundosFinais = horasFinalSegundos + minutosFinalSegundos;
+
+        const result = segundosFinais - segundosIniciais;
+
+        if (result <= 0) {
+            return true;
+        }
+
+    }
+
+
     function agendamentoPayload() {
-        // VERIFICAR CAMPOS !!!
-        // let agendamento = {
-        //     agendamento_horario_inicio: agendamento_horario_inicio,
-        //     agendamento_horario_fim: agendamento_horario_fim,
-        //     agendamento_dia_inicial: agendamento_dia_inicial,
-        //     agendamento_dias_semana: agendamento_dias_semana
-        // }
+
         setAgendamentos({
             ["id"]: agendamentos.id,
             ["agendamento_horario_inicio"]: agendamento_horario_inicio,

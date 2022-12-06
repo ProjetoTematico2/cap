@@ -31,6 +31,7 @@ export default function Index(props) {
 
     const handleSearch = async (evt) => {
         const value = evt.target.value;
+        console.log(value)
         setSearch({
             ...search,
             [evt.target.name]: value

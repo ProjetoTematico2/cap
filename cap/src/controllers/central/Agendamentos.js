@@ -7,7 +7,18 @@ module.exports = {
 
         try {
 
-            // let check = await db.sequelize.models.Agendamentos.findAll()
+            if (payload.search.id_prestador.value == null || payload.search.id_prestador == '') {
+                return { status: false, text: `Selecione o prestador` };
+            } else if (payload.search.id_processo.value == null || payload.search.id_processo == '') {
+                return { status: false, text: `Selecione o processo` };
+            } else if (payload.search.id_processo.value == null || payload.search.id_tarefa == '') {
+                return { status: false, text: `Selecione a tarefa` };
+            } else if (payload.search.id_processo.value == null || payload.search.id_entidade == '') {
+                return { status: false, text: `Selecione a instituição` };
+            } else if (payload.agendamentos.data_inicial < new Date().getDate()) {
+                return { status: false, text: `Revise as datas` };
+            }
+
 
             await db.sequelize.models.Agendamentos.create({
 
@@ -36,21 +47,26 @@ module.exports = {
 
     async Edit(payload) {
 
+
+
         try {
 
-            // let check = await db.sequelize.models.Agendamentos.findAll({
-            //     where: {
-            //         id: {
-            //             [Op.ne]: payload.id
-            //         }
-            //     }
-            // })
-            console.log(payload.agendamentos);
-            
+            if (payload.search.id_prestador.value == null || payload.search.id_prestador == '') {
+                return { status: false, text: `Selecione o prestador` };
+            } else if (payload.search.id_processo.value == null || payload.search.id_processo == '') {
+                return { status: false, text: `Selecione o processo` };
+            } else if (payload.search.id_processo.value == null || payload.search.id_tarefa == '') {
+                return { status: false, text: `Selecione a tarefa` };
+            } else if (payload.search.id_processo.value == null || payload.search.id_entidade == '') {
+                return { status: false, text: `Selecione a instituição` };
+            } else if (payload.agendamentos.data_inicial < new Date().getDate()) {
+                return { status: false, text: `Revise as datas` };
+            }
+
+
+
             let Agendamento = await db.sequelize.models.Agendamentos.findByPk(payload.agendamentos.id);
 
-        
-    
             Agendamento.data_inicial = payload.agendamentos.agendamento_dia_inicial,
                 Agendamento.horario_inicio = payload.agendamentos.agendamento_horario_inicio,
                 Agendamento.horario_fim = payload.agendamentos.agendamento_horario_fim,
@@ -68,7 +84,7 @@ module.exports = {
 
 
         } catch (error) {
-            return { status: false, text: "Erro interno no servidor. " + error.message };
+            return { status: false, text: "Erro interno no servidor." };
         }
 
         return { status: true, text: `Agendamento Editado` };
@@ -94,14 +110,16 @@ module.exports = {
         let someAttributes = {};
 
         if (search) {
-            if (search.id) {
-                where.id = search.id;
+            if (search.processo) {
+                where.id = search.processo;
             }
 
         }
 
         const data = await db.sequelize.models.Agendamentos.findAll({
-            where: where,
+            where: {
+                // ProcessoId: where.id,
+            },
             include: [
                 { model: db.sequelize.models.Processos },
                 { model: db.sequelize.models.Tarefa }

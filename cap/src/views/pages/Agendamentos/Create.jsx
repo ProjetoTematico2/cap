@@ -31,38 +31,64 @@ export default function Create() {
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
-  
         const payload = {
             search: search,
             agendamentos: agendamentos
         }
-        
-        console.log(payload.search);
-        const postResult = await window.api.Action({ controller: "Agendamentos", action: "Create", params: payload });
 
+        if (verificaDatas() == true) {
+            window.api.Alert({ status: false, text: "Horário inicial inferior ou igual ao horário final", title: "Erro!" });
+            return;
+        }
+
+        const postResult = await window.api.Action({ controller: "Agendamentos", action: "Create", params: payload });
         window.api.Alert({ status: postResult.status, text: postResult.text, title: postResult.status ? "Sucesso!" : "Erro!" });
 
         // if (postResult.status)
-        //     navigate("/agendamentos");
+        //     navigate("/agendamentos/create");
 
     }
 
-    function agendamentoPayload(){
-        // VERIFICAR CAMPOS !!!
+    function verificaDatas() {
+        let horasInicial = agendamento_horario_inicio.slice(0, 2);
+        let minutosInicial = agendamento_horario_inicio.slice(3, 5);
+
+        let horasFinal = agendamento_horario_fim.slice(0, 2);
+        let minutosFinal = agendamento_horario_fim.slice(3, 5);
+
+        let horasInicialSegundos = parseInt(horasInicial) * 3600;
+        let minutosInicialSegundos = parseInt(minutosInicial) * 60;
+
+        let horasFinalSegundos = parseInt(horasFinal) * 3600;
+        let minutosFinalSegundos = parseInt(minutosFinal) * 60;
+
+        const segundosIniciais = horasInicialSegundos + minutosInicialSegundos;
+        const segundosFinais = horasFinalSegundos + minutosFinalSegundos;
+
+        const result = segundosFinais - segundosIniciais;
+
+        if (result <= 0) {
+            return true;
+        }
+
+    }
+
+
+    function agendamentoPayload() {
+
         let agendamento = {
             agendamento_horario_inicio: agendamento_horario_inicio,
             agendamento_horario_fim: agendamento_horario_fim,
             agendamento_dia_inicial: agendamento_dia_inicial,
             agendamento_dias_semana: agendamento_dias_semana
         }
-        
+
         setAgendamentos(agendamento);
     }
 
     const handleDias = (value) => {
-        setAgendamento_dias_semana(
-            value.sort((a, b) =>  (a.value > b.value) ? 1 : ((b.value > a.value) ? -1 : 0)) 
-        )
+
+        setAgendamento_dias_semana(value.sort((a, b) => (a.value > b.value) ? 1 : ((b.value > a.value) ? -1 : 0)))
         agendamentoPayload();
     }
 
@@ -78,18 +104,18 @@ export default function Create() {
     }
 
     const fetchDataEntidades = async (value) => {
-    
-        let data = tarefas.map( (e) => {
-           
-            if ( value.instituicaoTarefaId == e.instituicoes.id && e.instituicoes.dt_descredenciamento == null){
+
+        let data = tarefas.map((e) => {
+
+            if (value.instituicaoTarefaId == e.instituicoes.id && e.instituicoes.dt_descredenciamento == null) {
                 let entidadeLabel = {
                     value: e.instituicoes.id,
                     label: e.instituicoes.nome
                 }
                 return entidadeLabel;
-            } 
+            }
         })
-        data = data.filter( (e) => { return e != undefined } );
+        data = data.filter((e) => { return e != undefined });
         setEntidades(data);
     }
 
@@ -218,6 +244,7 @@ export default function Create() {
                             <div className="input-form">
                                 <label htmlFor="trabalho_horario_inicio">Horário de Entrada</label>
                                 <input
+                                    required={true}
                                     id="agendamento_horario_inicio"
                                     name="agendamento_horario_inicio"
                                     className="form-control input rounded-2"
@@ -232,6 +259,7 @@ export default function Create() {
                             <div className="input-form">
                                 <label htmlFor="agendamento_horario_fim">Horário de Saída</label>
                                 <input
+                                    required={true}
                                     id="agendamento_horario_fim"
                                     name="agendamento_horario_fim"
                                     className="form-control input rounded-2"
@@ -247,6 +275,7 @@ export default function Create() {
                             <div className="input-form">
                                 <label htmlFor="agendamento_dia_inicial">Data inicial</label>
                                 <input
+                                    required={true}
                                     id="agendamento_dia_inicial"
                                     name="agendamento_dia_inicial"
                                     className="form-control input rounded-2"
@@ -280,7 +309,6 @@ export default function Create() {
                     <button type="button" onClick={() => { navigate("/agendamentos"); }} className="btn btn-danger"><i className="fa fa-trash"></i> Cancelar</button>
                 </div>
             </div>
-
 
         </>
     )
