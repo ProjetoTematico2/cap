@@ -63,9 +63,6 @@ module.exports = {
                 return { status: false, text: `Selecione os dias da semana das tarefas` };
             }
 
-
-
-
             let Agendamento = await db.sequelize.models.Agendamentos.findByPk(payload.agendamentos.id);
 
             Agendamento.data_inicial = payload.agendamentos.agendamento_dia_inicial,
