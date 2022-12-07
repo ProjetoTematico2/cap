@@ -72,8 +72,8 @@ export default function Edit(props) {
                 ["agendamento_dias_semana"]: data.agendamento_dias_semana,
             });
 
-            setTarefas([processosLabel]);
-            setProcessos([tarefasLabel]);
+            setTarefas([tarefasLabel]);
+            setProcessos([processosLabel]);
             setPrestadores([prestadorLabel]);
 
         }
@@ -194,6 +194,7 @@ export default function Edit(props) {
 
     const handleSearchDropProcesso = async (evt) => {
         const value = evt;
+        console.log(value)
         setSearch({
             ...search,
             ['id_processo']: value
