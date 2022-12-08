@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "mysql": "^2.18.1",
+    "pdfmake": "^0.2.6",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.9"
   },

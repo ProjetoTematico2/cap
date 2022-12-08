@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Title from "../../shared/Title";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+
 
 const Index = () => {
     const navigate = useNavigate();
@@ -13,6 +16,73 @@ const Index = () => {
         cpf: '',
         nome: '',
     });
+
+    const GerarListagem = async (id_prestador, nro_processo) => {
+        const search = {
+            id_prestador: id_prestador
+        }
+
+        console.log(search.id_prestador)
+        const processo = await window.api.Action({ controller: "Processos", action: "GetProcessos", params: search });
+        const atestados = await window.api.Action({ controller: "AtestadoFrequencia", action: "GetAtestadoFrequencia", params: search });
+
+        console.log(atestados)
+
+     
+        const body = atestados.map((e) => {
+            return [
+                { text: String(e.data_entrada) },
+                { text: String(e.data_saida) },
+                { text: String(e.processo) },
+                { text: String(e.titulo) },
+            ];
+        });
+
+        let content = [...body]
+
+        console.log(content)
+
+        pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+        const dd1 = {
+            content: [
+                // { text: 'Tables', style: 'header' },
+                // 'Official documentation is in progress, this document is just a glimpse of what is possible with pdfmake and its layout engine.',
+                // { text: 'A simple table (no headers, no width specified, no spans, no styling)', style: 'subheader' },
+                // 'The following table has nothing more than a body array',
+                {
+                    style: 'tableExample',
+                    table: {
+                        body: [
+                            ["Data Entrada", "Data Saída", "Número Processo", "Tarefa"],  
+                            ["dsa", "das","das","ada"]
+                        ]
+                    }
+                }
+            ]
+        }
+
+        const dd = {
+
+            content: [
+                { text: 'A simple table (no headers, no width specified, no spans, no styling)' },
+                'The following table has nothing more than a body array',
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', 55, 55],
+                        body: content
+                    }
+                },
+
+            ]
+        }
+
+        pdfMake.createPdf(dd1).open({}, window.open('', '_blank'));
+        // pdf.print();
+        // pdf.download('PPRA.pdf');
+    }
+
 
     const fetchData = async () => {
 
@@ -42,6 +112,7 @@ const Index = () => {
     }
 
 
+
     const DeletePrestador = (id, nome) => {
 
         const handleClickDelete = async (id) => {
@@ -52,6 +123,7 @@ const Index = () => {
                 fetchData();
             }
         }
+
 
         confirmAlert({
             customUI: ({ onClose }) => {
@@ -160,6 +232,7 @@ const Index = () => {
                                                 <li> <NavLink className="dropdown-item" id="edit" to={`/prestadores/edit/${r.id}`}> <i className='fa fa-edit'></i> Editar</NavLink></li>
                                                 <li> <NavLink className="dropdown-item" id="edit" to={`/processos/create/${r.id}`}> <i className='fa fa-plus'></i> Novo Processo</NavLink></li>
                                                 <li> <a className="dropdown-item" onClick={() => { DeletePrestador(r.id, r.nome) }} to="#"><i className="fa-solid fa-trash"></i> Excluir</a></li>
+                                                <li> <a className="dropdown-item" onClick={() => { GerarListagem(r.id, r.ultimo_processo) }} to="#"><i className="fa-solid fa-trash"></i> Gerar Listagem</a></li>
                                             </ul>
                                         </div>
                                     </td>

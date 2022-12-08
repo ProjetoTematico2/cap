@@ -62,6 +62,10 @@ models.Usuario.belongsTo(models.Instituicoes);
 models.Agendamentos.belongsTo(models.Processos);
 models.Agendamentos.belongsTo(models.Tarefa);
 
+models.AtestadoFrequencia.belongsTo(models.Processos);
+models.AtestadoFrequencia.belongsTo(models.Tarefa);
+
+
 
 
 

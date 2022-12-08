@@ -1,7 +1,10 @@
 
 const db = require('../../models/index');
 const { Op } = require("sequelize");
+
+
 module.exports = {
+
 
     async GetPrestadores(search) {
         let where = {};
@@ -9,12 +12,12 @@ module.exports = {
             if (search.id)
                 where.id = search.id;
 
-            if (search.nome){
+            if (search.nome) {
                 where.nome = {
                     [Op.substring]: search.nome
                 }
             }
-            if (search.cpf){
+            if (search.cpf) {
                 where.cpf = {
                     [Op.substring]: search.cpf
                 }
@@ -31,8 +34,8 @@ module.exports = {
                 id: s.id,
                 nome: s.nome,
                 cpf: s.cpf,
-                ultimo_processo: s.Processos.length > 0 ? s.Processos[s.Processos.length-1].nro_processo : "N/A",
-                horas_cumprir: s.Processos.length > 0 ? s.Processos[s.Processos.length-1].horas_cumprir : "N/A",
+                ultimo_processo: s.Processos.length > 0 ? s.Processos[s.Processos.length - 1].nro_processo : "N/A",
+                horas_cumprir: s.Processos.length > 0 ? s.Processos[s.Processos.length - 1].horas_cumprir : "N/A",
                 horas_cumpridas: "N/A"
             }
         });
@@ -153,13 +156,13 @@ module.exports = {
 
         try {
 
-            let checkPrestador =  await db.sequelize.models.Prestadores.findAll({
+            let checkPrestador = await db.sequelize.models.Prestadores.findAll({
                 where: {
                     cpf: parseInt(payload.prestador.cpf)
                 }
             })
 
-            if(checkPrestador.length > 0)
+            if (checkPrestador.length > 0)
                 return { status: false, text: `CPF já cadastrado no sistema` };
 
 
@@ -303,7 +306,7 @@ module.exports = {
 
         try {
 
-            let checkPrestador =  await db.sequelize.models.Prestadores.findAll({
+            let checkPrestador = await db.sequelize.models.Prestadores.findAll({
                 where: {
                     cpf: parseInt(payload.prestador.cpf),
                     id: {
@@ -312,7 +315,7 @@ module.exports = {
                 }
             })
 
-            if(checkPrestador.length > 0)
+            if (checkPrestador.length > 0)
                 return { status: false, text: `CPF já cadastrado no sistema` };
 
             let Endereco = await db.sequelize.models.Endereco.findByPk(payload.endereco.id);

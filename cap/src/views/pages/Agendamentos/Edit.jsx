@@ -194,7 +194,6 @@ export default function Edit(props) {
 
     const handleSearchDropProcesso = async (evt) => {
         const value = evt;
-        console.log(value)
         setSearch({
             ...search,
             ['id_processo']: value

@@ -63,6 +63,7 @@ module.exports = {
                 return { status: false, text: `Selecione os dias da semana das tarefas` };
             }
 
+
             let Agendamento = await db.sequelize.models.Agendamentos.findByPk(payload.agendamentos.id);
 
             Agendamento.data_inicial = payload.agendamentos.agendamento_dia_inicial,
@@ -112,11 +113,12 @@ module.exports = {
                 where.id = search.processo;
             }
 
-        }
+        }   
+       
 
         const data = await db.sequelize.models.Agendamentos.findAll({
             where: {
-                // ProcessoId: where.id,
+                //ProcessoId: where,
             },
             include: [
                 { model: db.sequelize.models.Processos },

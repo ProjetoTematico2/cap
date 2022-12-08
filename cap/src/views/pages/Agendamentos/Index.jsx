@@ -124,6 +124,7 @@ export default function Index(props) {
                                             <ul className="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                 <li> <NavLink className="dropdown-item" id="edit" to={`/agendamentos/edit/${r.id}`}> <i className='fa fa-edit'></i> Editar</NavLink></li>
                                                 <li> <a className="dropdown-item" onClick={() => { DeleteAgendamento(r.id) }} to="#"><i className="fa-solid fa-trash"></i> Excluir</a></li>
+                                               
                                             </ul>
                                         </div>
                                     </td>
