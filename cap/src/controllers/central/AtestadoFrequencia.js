@@ -15,7 +15,7 @@ module.exports = {
 
         }
 
-        console.log(where.ProcessoId)
+     
        
         const data = await db.sequelize.models.AtestadoFrequencia.findAll({
             where: {
@@ -36,6 +36,7 @@ module.exports = {
                 tarefa: s.Tarefa.dataValues,
                 processo: s.Processo.dataValues
             }
+          
             return atestados;
         });
     },

@@ -22,65 +22,58 @@ const Index = () => {
             id_prestador: id_prestador
         }
 
-        console.log(search.id_prestador)
-        const processo = await window.api.Action({ controller: "Processos", action: "GetProcessos", params: search });
+        const processos = await window.api.Action({ controller: "Processos", action: "GetProcessos", params: search });
         const atestados = await window.api.Action({ controller: "AtestadoFrequencia", action: "GetAtestadoFrequencia", params: search });
 
-        console.log(atestados)
-
-     
-        const body = atestados.map((e) => {
-            return [
-                { text: String(e.data_entrada) },
-                { text: String(e.data_saida) },
-                { text: String(e.processo) },
-                { text: String(e.titulo) },
-            ];
-        });
-
-        let content = [...body]
-
-        console.log(content)
 
         pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-        const dd1 = {
+
+        const data = [
+            { entrada: new Date(atestados[0].dt_entrada), saida: new Date(atestados[0].dt_saida), processo: processos[0].nro_processo, tarefa:atestados[0].tarefa.titulo}
+        ]
+
+
+        var dd = {
             content: [
-                // { text: 'Tables', style: 'header' },
-                // 'Official documentation is in progress, this document is just a glimpse of what is possible with pdfmake and its layout engine.',
-                // { text: 'A simple table (no headers, no width specified, no spans, no styling)', style: 'subheader' },
-                // 'The following table has nothing more than a body array',
-                {
-                    style: 'tableExample',
-                    table: {
-                        body: [
-                            ["Data Entrada", "Data Saída", "Número Processo", "Tarefa"],  
-                            ["dsa", "das","das","ada"]
-                        ]
-                    }
-                }
+                { text:`Relatório de comparecimento do usuário ${processos[0].prestador}`, style: 'header' },
+                table(data, ['entrada', 'saida', 'processo', 'tarefa'])
             ]
         }
 
-        const dd = {
+      
+        pdfMake.createPdf(dd).open({}, window.open('', '_blank'));
 
-            content: [
-                { text: 'A simple table (no headers, no width specified, no spans, no styling)' },
-                'The following table has nothing more than a body array',
-                {
-                    table: {
-                        headerRows: 1,
-                        widths: ['*', 55, 55],
-                        body: content
-                    }
-                },
+       
+    }
 
-            ]
-        }
+    function table(data, columns) {
 
-        pdfMake.createPdf(dd1).open({}, window.open('', '_blank'));
-        // pdf.print();
-        // pdf.download('PPRA.pdf');
+        return {
+            table: {
+                headerRows: 1,
+                body: buildTableBody(data, columns)
+            }
+        };
+
+    }
+
+    function buildTableBody(data, columns) {
+        var body = [];
+
+        body.push(columns);
+
+        data.forEach(function (row) {
+            var dataRow = [];
+
+            columns.forEach(function (column) {
+                dataRow.push(String(row[column]));
+            })
+
+            body.push(dataRow);
+        });
+
+        return body;
     }
 
 
