@@ -1,0 +1,12 @@
+{
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "CAP",
+            "group": "CAP",
+            "database": "${workspaceFolder:cap}/cap/CAP_DB.sqlite"
+        }
+    ]
+}

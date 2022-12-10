@@ -89,6 +89,9 @@ const Create = (props) => {
         }
         
         setTarefas([...tarefas, tarefa]);
+             
+        setTarefaTitulo('');
+        setTarefaDescricao('');
     }
 
     const removerTarefa = (item) => {

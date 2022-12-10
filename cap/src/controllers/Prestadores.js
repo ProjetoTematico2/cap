@@ -1,8 +1,15 @@
 
-const db = require('../../models/index');
+const db = require('../models/index');
 const { Op } = require("sequelize");
 
+function diff_hours(dt2, dt1) 
+ {
 
+  var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+  diff /= (60 * 60);
+  return Math.abs(Math.round(diff));
+  
+ }
 module.exports = {
 
 
@@ -25,7 +32,13 @@ module.exports = {
         }
 
         const Prestadores = await db.sequelize.models.Prestadores.findAll({
-            include: db.sequelize.models.Processos,
+            include: [
+                {
+                    model: db.sequelize.models.Processos,
+                    include: [{ model: db.sequelize.models.AtestadoFrequencia }]
+
+                }
+            ],
             where: where
         });
 
@@ -36,7 +49,9 @@ module.exports = {
                 cpf: s.cpf,
                 ultimo_processo: s.Processos.length > 0 ? s.Processos[s.Processos.length - 1].nro_processo : "N/A",
                 horas_cumprir: s.Processos.length > 0 ? s.Processos[s.Processos.length - 1].horas_cumprir : "N/A",
-                horas_cumpridas: "N/A"
+                horas_cumpridas: s.Processos.length > 0 ? s.Processos[s.Processos.length - 1].AtestadoFrequencia.map(s => {
+                    return diff_hours(s.dt_entrada, s.dt_saida) 
+                } ).reduce((a, b) => a + b, 0) : "N/A",
             }
         });
 

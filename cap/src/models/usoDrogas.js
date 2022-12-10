@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   UsoDrogas.init({
     frequencia: DataTypes.INTEGER,
-    observacao: DataTypes.STRING
+    observacao: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'UsoDrogas',

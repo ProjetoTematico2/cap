@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     sexta: DataTypes.BOOLEAN,
     sabado: DataTypes.BOOLEAN,
     domingo: DataTypes.BOOLEAN,
+    ref_integracao: DataTypes.INTEGER
     
   }, {
     sequelize,

@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Vara.init({
     nome: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Vara',

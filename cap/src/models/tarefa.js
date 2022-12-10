@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   Tarefa.init({
     titulo: DataTypes.STRING,
     descricao: DataTypes.STRING,
-    status: DataTypes.BOOLEAN
+    status: DataTypes.BOOLEAN,
+    ref_integracao: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Tarefa',

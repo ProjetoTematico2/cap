@@ -1,14 +1,17 @@
 import { useNavigate, NavLink } from 'react-router-dom'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Title from "../../shared/Title";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
+import { AuthContext } from "../../contexts/auth";
 
 const Index = () => {
     const navigate = useNavigate();
+
+    const { user } = useContext(AuthContext);
 
     const [prestadores, setPrestadores] = useState([]);
     const [search, setSearch] = useState({
@@ -17,34 +20,51 @@ const Index = () => {
         nome: '',
     });
 
-    const GerarListagem = async (id_prestador, nro_processo) => {
+    const GerarListagem = async (id_prestador, nro_processo, nome) => {
         const search = {
             id_prestador: id_prestador
         }
 
-        const processos = await window.api.Action({ controller: "Processos", action: "GetProcessos", params: search });
         const atestados = await window.api.Action({ controller: "AtestadoFrequencia", action: "GetAtestadoFrequencia", params: search });
 
 
         pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-
-        const data = [
-            { entrada: new Date(atestados[0].dt_entrada), saida: new Date(atestados[0].dt_saida), processo: processos[0].nro_processo, tarefa:atestados[0].tarefa.titulo}
-        ]
-
+   
 
         var dd = {
             content: [
-                { text:`Relatório de comparecimento do usuário ${processos[0].prestador}`, style: 'header' },
-                table(data, ['entrada', 'saida', 'processo', 'tarefa'])
-            ]
+                { text: `Relatório de comparecimento`, style: 'header1' },
+                { text: `Nome: ${nome}`, style: 'header2' },
+                { text: `Data: ${new Date().toLocaleDateString('pt-BR')}`, style: 'header3' },
+                table(atestados, 
+                    ['Número Processo', 'Tarefa', 'Entidade', 'Data de Entrada', 'Data de Saída', 'Horas Cumpridas', 'Observação'],
+                )
+            ],
+            styles: {
+                header1: {
+                  fontSize: 22,
+                  lineHeight: 1,
+                  bold: true
+                },
+                header2: {
+                  fontSize: 16,
+                  lineHeight: 1
+                },
+                header3: {
+                    fontSize: 10,
+                    lineHeight: 2
+                  },
+                tableFont:{
+                    fontSize: 8
+                }
+              }
         }
 
-      
+
         pdfMake.createPdf(dd).open({}, window.open('', '_blank'));
 
-       
+
     }
 
     function table(data, columns) {
@@ -187,8 +207,12 @@ const Index = () => {
 
 
             </div>
+            {
+                user.appMode === 0 ?
+                    <button type="button" className='btn btn-custom' onClick={() => { CreatePrestador() }}><i className='fa fa-plus'></i> Novo</button>
+                    : null
+            }
 
-            <button type="button" className='btn btn-custom' onClick={() => { CreatePrestador() }}><i className='fa fa-plus'></i> Novo</button>
 
 
             <div className='row table-container'>
@@ -203,6 +227,7 @@ const Index = () => {
                                 <th>Horas a Cumprir</th>
                                 <th>Horas Cumpridas</th>
                                 <th></th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -216,19 +241,53 @@ const Index = () => {
                                     <td>{r.horas_cumprir}</td>
                                     <td>{r.horas_cumpridas}</td>
                                     <td>
+                                        {
+                                            user.appMode === 0 ?
+                                                <div className="btn-group" role="group">
+
+                                                    <span id="btnGroupDrop1" type="button" className="btn btn-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i className='fa fa-cog'></i> opções
+                                                    </span>
+                                                    <ul className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <li> <NavLink className="dropdown-item" id="edit" to={`/prestadores/edit/${r.id}`}> <i className='fa fa-edit'></i> Editar</NavLink></li>
+                                                    <li> <NavLink className="dropdown-item" id="edit" to={`/processos/create/${r.id}`}> <i className='fa fa-plus'></i> Novo Processo</NavLink></li>
+                                                    <li> <a className="dropdown-item" onClick={() => { GerarListagem(r.id, r.ultimo_processo,r.nome) }} to="#"><i className="fa-solid fa-file"></i> Gerar Relatório</a></li>
+                                                    <li> <a className="dropdown-item" onClick={() => { DeletePrestador(r.id, r.nome) }} to="#"><i className="fa-solid fa-trash"></i> Excluir</a></li>
+                                                    </ul>
+                                                </div>
+                                                :
+                                                <button type="button" className='btn btn-dark-blue' ><i className="fa-solid fa-list-check"></i> Ver registros</button>
+                                        }
+
+                                    </td>
+                             {/*        <td>
+                            
+
                                         <div className="btn-group" role="group">
+
 
                                             <span id="btnGroupDrop1" type="button" className="btn btn-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i className='fa fa-cog'></i> opções
                                             </span>
                                             <ul className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                <li> <NavLink className="dropdown-item" id="edit" to={`/prestadores/edit/${r.id}`}> <i className='fa fa-edit'></i> Editar</NavLink></li>
-                                                <li> <NavLink className="dropdown-item" id="edit" to={`/processos/create/${r.id}`}> <i className='fa fa-plus'></i> Novo Processo</NavLink></li>
-                                                <li> <a className="dropdown-item" onClick={() => { DeletePrestador(r.id, r.nome) }} to="#"><i className="fa-solid fa-trash"></i> Excluir</a></li>
-                                                <li> <a className="dropdown-item" onClick={() => { GerarListagem(r.id, r.ultimo_processo) }} to="#"><i className="fa-solid fa-trash"></i> Gerar Listagem</a></li>
+                                                {
+                                                    user.appMode === 0 ?
+                                                        <>
+                                                            <li> <NavLink className="dropdown-item" id="edit" to={`/prestadores/edit/${r.id}`}> <i className='fa fa-edit'></i> Editar</NavLink></li>
+                                                            <li> <NavLink className="dropdown-item" id="edit" to={`/processos/create/${r.id}`}> <i className='fa fa-plus'></i> Novo Processo</NavLink></li>
+                                                            <li> <a className="dropdown-item" onClick={() => { GerarListagem(r.id, r.ultimo_processo) }} to="#"><i className="fa-solid fa-trash"></i> Gerar Listagem</a></li>
+                                                            <li> <a className="dropdown-item" onClick={() => { DeletePrestador(r.id, r.nome) }} to="#"><i className="fa-solid fa-trash"></i> Excluir</a></li>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <li> <NavLink className="dropdown-item" id="edit" to={`/prestadores/edit/${r.id}`}> <i className='fa fa-eye'></i> Visualizar</NavLink></li>
+                                                            <li> <a className="dropdown-item" onClick={() => { GerarListagem(r.id, r.ultimo_processo) }} to="#"><i className="fa-solid fa-trash"></i> Gerar Listagem</a></li>
+                                                        </>
+
+                                                }
                                             </ul>
-                                        </div>
-                                    </td>
+                                        </div> 
+                                    </td>*/}
                                 </tr>
 
                             ))}

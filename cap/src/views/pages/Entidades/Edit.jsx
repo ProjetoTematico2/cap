@@ -306,7 +306,7 @@ export default function Edit(props) {
                                                             {s.descricao ?? "--"}
                                                         </td>
                                                         <td>
-                                                            {s.status === 1 ? 'Ativo' : 'Inativo'}
+                                                            {s.status  ? 'Ativo' : 'Inativo'}
                                                         </td>
                                                         <td>
                                                             <button type="button" className="btn btn-danger pull-right mx-2" onClick={() => { removerTarefa(s) }}><i className="fa-solid fa-trash"></i> Excluir</button>

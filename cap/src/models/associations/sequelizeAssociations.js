@@ -51,8 +51,11 @@ models.Tarefa.belongsTo(models.Instituicoes);
 models.Tarefa.belongsToMany(models.Processos, { through: 'TarefaProcessos' });
 models.Processos.belongsToMany(models.Tarefa, { through: 'TarefaProcessos' });
 
-models.Tarefa.hasOne(models.AtestadoFrequencia);
-models.Processos.hasOne(models.AtestadoFrequencia);
+models.Tarefa.hasMany(models.AtestadoFrequencia);
+models.Processos.hasMany(models.AtestadoFrequencia);
+
+models.Agendamentos.hasOne(models.AtestadoFrequencia);
+models.AtestadoFrequencia.hasMany(models.Agendamentos);
 
 models.Instituicoes.hasOne(models.AtestadoComparecimento);
 models.Processos.hasOne(models.AtestadoComparecimento);

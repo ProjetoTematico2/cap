@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     qtd_penas_anteriores: DataTypes.INTEGER,
     possui_multa: DataTypes.BOOLEAN,
     valor_a_pagar: DataTypes.DOUBLE,
+    ref_integracao: DataTypes.INTEGER
 
   }, {
     sequelize,

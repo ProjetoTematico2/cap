@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Buffer } from 'buffer';
 import { useNavigate, useParams } from 'react-router-dom'
+import { AuthContext } from "../../contexts/auth";
 import Title from "../../shared/Title";
 import Endereco from "../../shared/Endereco";
 import InputDiasSemana from "../../shared/InputDiasSemana";
@@ -10,10 +11,11 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 
+
 const Edit = (props) => {
     const navigate = useNavigate();
     const { id } = useParams();
-
+    const { user } = useContext(AuthContext);
     const [image, setImage] = useState('');
 
     const [prestador, setPrestador] = useState({
@@ -474,8 +476,6 @@ const Edit = (props) => {
 
 
 
-
-
     return (
         <form onSubmit={submitForm}>
 
@@ -488,45 +488,51 @@ const Edit = (props) => {
                         <div className="col-md-8">
 
                             <div className="row">
+                                {
+                                    user.appMode === 0 ?
+                                        <div className="col-md-3">
+
+                                            <div className="input-group mb-2 mt-2">
+
+                                                <label className="file-input-custom" htmlFor="inputGroupFile04" id="upload-file-layout">
+
+                                                    {
+                                                        image ?
+                                                            <img src={image} alt="" srcSet="" />
+                                                            :
+                                                            <span id="empty-image">
+                                                                <i className="fa fa-image"></i> <br />
+                                                                Foto
+                                                            </span>
+                                                    }
 
 
-                                <div className="col-md-3">
 
-                                    <div className="input-group mb-2 mt-2">
 
-                                        <label className="file-input-custom" htmlFor="inputGroupFile04" id="upload-file-layout">
-
+                                                </label>
+                                                <input type="file" className="file-select-custom" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" onChange={handleImage} />
+                                            </div>
                                             {
                                                 image ?
-                                                    <img src={image} alt="" srcSet="" />
-                                                    :
-                                                    <span id="empty-image">
-                                                        <i className="fa fa-image"></i> <br />
-                                                        Foto
-                                                    </span>
+                                                    <div style={{ display: "flex" }}>
+                                                        <button className="btn btn-danger btn-remove-img" onClick={removeImage}><i className="fa-solid fa-trash"></i> remover imagem</button>
+                                                    </div>
+
+                                                    : null
                                             }
 
+                                        </div>
+
+                                        : null
+                                }
 
 
 
-                                        </label>
-                                        <input type="file" className="file-select-custom" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" onChange={handleImage} />
-                                    </div>
-                                    {
-                                        image ?
-                                            <div style={{ display: "flex" }}>
-                                                <button className="btn btn-danger btn-remove-img" onClick={removeImage}><i className="fa-solid fa-trash"></i> remover imagem</button>
-                                            </div>
-
-                                            : null
-                                    }
-
-                                </div>
-
-                                <div className="col-md-9">
+                                <div className={user.appMode === 0 ? "col-md-9" : "col-md-12"}  >
 
                                     <div className="input-form">
                                         <label htmlFor="nome">Nome</label>
+
                                         <input
                                             id="nome"
                                             name="nome"
@@ -536,7 +542,7 @@ const Edit = (props) => {
                                             value={prestador.nome}
                                             required={true}
                                             onChange={handlePrestador}
-
+                                            readOnly={user.appMode === 1}
                                         />
                                     </div>
 
@@ -551,6 +557,7 @@ const Edit = (props) => {
                                             value={prestador.nome_mae}
                                             required={true}
                                             onChange={handlePrestador}
+                                            readOnly={user.appMode === 1}
                                         />
                                     </div>
 
@@ -567,6 +574,7 @@ const Edit = (props) => {
                                                     required={true}
                                                     value={prestador.cpf}
                                                     onChange={handlePrestador}
+                                                    readOnly={user.appMode === 1}
                                                 />
                                             </div>
 
@@ -581,6 +589,7 @@ const Edit = (props) => {
                                                     required={true}
                                                     value={prestador.telefone1}
                                                     onChange={handlePrestador}
+                                                    readOnly={user.appMode === 1}
                                                 />
                                             </div>
 
@@ -599,6 +608,7 @@ const Edit = (props) => {
                                                     required={true}
                                                     value={prestador.dt_nascimento}
                                                     onChange={handlePrestador}
+                                                    readOnly={user.appMode === 1}
                                                 />
                                             </div>
 
@@ -613,6 +623,7 @@ const Edit = (props) => {
                                                     required={false}
                                                     value={prestador.telefone2}
                                                     onChange={handlePrestador}
+                                                    readOnly={user.appMode === 1}
                                                 />
                                             </div>
 
@@ -636,7 +647,11 @@ const Edit = (props) => {
                                         <select className="select-custom w-10 form-select form-select-md" id="estado_civil" name="estado_civil"
                                             value={prestador.estado_civil}
                                             required={true}
-                                            onChange={handlePrestador}>
+                                            onChange={handlePrestador}
+                                            readOnly={user.appMode === 1}
+                                            disabled={user.appMode === 1}
+                                        >
+
                                             <option defaultValue={true} value={0}>Solteiro</option>
                                             <option value={1}>Casado</option>
                                             <option value={2}>Separado</option>
@@ -652,7 +667,9 @@ const Edit = (props) => {
                                         <select className="select-custom w-10 form-select form-select-md" id="etnia" name="etnia"
                                             value={prestador.etnia}
                                             required={true}
-                                            onChange={handlePrestador}>
+                                            onChange={handlePrestador}
+                                            readOnly={user.appMode === 1}
+                                            disabled={user.appMode === 1}>
                                             <option defaultValue={true} value={0}>Branco</option>
                                             <option value={1}>Preto</option>
                                             <option value={2}>Pardo</option>
@@ -673,7 +690,9 @@ const Edit = (props) => {
                                 <select className="select-custom w-10 form-select form-select-md" id="escolaridade" name="escolaridade"
                                     value={prestador.escolaridade}
                                     required={true}
-                                    onChange={handlePrestador}>
+                                    onChange={handlePrestador}
+                                    readOnly={user.appMode === 1}
+                                    disabled={user.appMode === 1}>
                                     <option defaultValue={true} value={0}>Analfabeto</option>
                                     <option value={1}>Fundamental Incompleto</option>
                                     <option value={2}>Fundamental Completo</option>
@@ -696,6 +715,7 @@ const Edit = (props) => {
                                     placeholder="Religião"
                                     value={prestador.religiao}
                                     onChange={handlePrestador}
+                                    readOnly={user.appMode === 1}
                                 />
                             </div>
 
@@ -720,6 +740,8 @@ const Edit = (props) => {
                                                 value="false"
                                                 checked={!prestador.possui_beneficios}
                                                 onChange={handleBeneficios}
+                                                readOnly={user.appMode === 1}
+                                                disabled={user.appMode === 1}
                                             />
                                         </label>
 
@@ -732,6 +754,8 @@ const Edit = (props) => {
                                                 value="true"
                                                 checked={prestador.possui_beneficios}
                                                 onChange={handleBeneficios}
+                                                readOnly={user.appMode === 1}
+                                                disabled={user.appMode === 1}
                                             />
                                         </label>
                                     </div>
@@ -742,25 +766,30 @@ const Edit = (props) => {
                                 prestador.possui_beneficios ?
 
                                     <div className="row">
+                                        {user.appMode === 0 ?
+                                            <div className="input-form col-md-12">
+                                                <label htmlFor="beneficios">Informe os benefícios do prestador</label>
+                                                <div className="input-group mb-3">
 
-                                        <div className="input-form col-md-12">
-                                            <label htmlFor="beneficios">Informe os benefícios do prestador</label>
-                                            <div className="input-group mb-3">
+                                                    <input
+                                                        id="beneficios"
+                                                        name="beneficios"
+                                                        className="form-control input rounded-2"
+                                                        placeholder='Bolsa Familia, Auxilio Emergencial, ...'
+                                                        value={beneficios}
+                                                        onChange={handleBeneficio}
+                                                        readOnly={user.appMode === 1}
+                                                    />
 
-                                                <input
-                                                    id="beneficios"
-                                                    name="beneficios"
-                                                    className="form-control input rounded-2"
-                                                    placeholder='Bolsa Familia, Auxilio Emergencial, ...'
-                                                    value={beneficios}
-                                                    onChange={handleBeneficio}
-                                                />
+                                                    <div className="input-group-append">
+                                                        <button className="btn btn-dark-blue" onClick={addBeneficio} type="button"><i className='fa fa-plus'></i> Adicionar Benefícios</button>
+                                                    </div>
 
-                                                <div className="input-group-append">
-                                                    <button className="btn btn-dark-blue" onClick={addBeneficio} type="button"><i className='fa fa-plus'></i> Adicionar Benefícios</button>
+
                                                 </div>
                                             </div>
-                                        </div>
+                                            : null
+                                        }
 
                                         {
                                             prestador.beneficios.length > 0 ?
@@ -771,7 +800,12 @@ const Edit = (props) => {
                                                             <thead>
                                                                 <tr>
                                                                     <th>Benefício</th>
-                                                                    <th></th>
+                                                                    {
+                                                                        user.appMode === 0 ?
+                                                                            <th></th>
+                                                                            : null
+                                                                    }
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -779,7 +813,11 @@ const Edit = (props) => {
                                                                     prestador.beneficios.map((s, i) => (
                                                                         <tr key={i}>
                                                                             <td>{s.nome}</td>
-                                                                            <td><button type="button" className="btn btn-danger pull-right" onClick={() => { removerBeneficio(s) }}><i className="fa-solid fa-trash"></i> Excluir</button></td>
+                                                                            {
+                                                                                user.appMode === 0 ?
+                                                                                    <td><button type="button" className="btn btn-danger pull-right" onClick={() => { removerBeneficio(s) }}><i className="fa-solid fa-trash"></i> Excluir</button></td>
+                                                                                    : null
+                                                                            }
                                                                         </tr>
 
                                                                     ))
@@ -818,73 +856,80 @@ const Edit = (props) => {
                     <Label nameLabel={"Familiares"} />
 
                     <div className="row">
-                        <div className="col-md-3">
-                            <div className="input-form">
-                                <label htmlFor="familiar_nome">Nome</label>
-                                <input
-                                    id="familiar_nome"
-                                    name="familiar_nome"
-                                    className="form-control input rounded-2"
-                                    type="text"
-                                    placeholder="Nome do Familiar"
-                                    value={familiar.familiar_nome}
-                                    onChange={handleFamilia}
+                        {user.appMode === 0 ?
 
-                                />
-                            </div>
-                        </div>
+                            <>
+                                <div className="col-md-3">
+                                    <div className="input-form">
+                                        <label htmlFor="familiar_nome">Nome</label>
+                                        <input
+                                            id="familiar_nome"
+                                            name="familiar_nome"
+                                            className="form-control input rounded-2"
+                                            type="text"
+                                            placeholder="Nome do Familiar"
+                                            value={familiar.familiar_nome}
+                                            onChange={handleFamilia}
 
-                        <div className="col-md-3">
-                            <div className="input-form">
-                                <label htmlFor="familiar_parentesco">Parentesco</label>
-                                <input
-                                    id="familiar_parentesco"
-                                    name="familiar_parentesco"
-                                    className="form-control input rounded-2"
-                                    type="text"
-                                    placeholder="Parentesco"
-                                    value={familiar.familiar_parentesco}
-                                    onChange={handleFamilia}
+                                        />
+                                    </div>
+                                </div>
 
-                                />
-                            </div>
-                        </div>
+                                <div className="col-md-3">
+                                    <div className="input-form">
+                                        <label htmlFor="familiar_parentesco">Parentesco</label>
+                                        <input
+                                            id="familiar_parentesco"
+                                            name="familiar_parentesco"
+                                            className="form-control input rounded-2"
+                                            type="text"
+                                            placeholder="Parentesco"
+                                            value={familiar.familiar_parentesco}
+                                            onChange={handleFamilia}
 
-                        <div className="col-md-3">
-                            <div className="input-form">
-                                <label htmlFor="familiar_idade">Idade (opcional)</label>
-                                <input
-                                    id="familiar_idade"
-                                    name="familiar_idade"
-                                    className="form-control input rounded-2"
-                                    type="number"
-                                    placeholder="Idade do Familiar"
-                                    value={familiar.familiar_idade}
-                                    onChange={handleFamilia}
+                                        />
+                                    </div>
+                                </div>
 
-                                />
-                            </div>
-                        </div>
+                                <div className="col-md-3">
+                                    <div className="input-form">
+                                        <label htmlFor="familiar_idade">Idade (opcional)</label>
+                                        <input
+                                            id="familiar_idade"
+                                            name="familiar_idade"
+                                            className="form-control input rounded-2"
+                                            type="number"
+                                            placeholder="Idade do Familiar"
+                                            value={familiar.familiar_idade}
+                                            onChange={handleFamilia}
 
-                        <div className="col-md-3">
-                            <div className="input-form">
-                                <label htmlFor="familiar_profissao">Profissão (opcional)</label>
-                                <input
-                                    id="familiar_profissao"
-                                    name="familiar_profissao"
-                                    className="form-control input rounded-2"
-                                    type="text"
-                                    placeholder="Profissão do Familiar"
-                                    value={familiar.familiar_profissao}
-                                    onChange={handleFamilia}
+                                        />
+                                    </div>
+                                </div>
 
-                                />
-                            </div>
-                        </div>
-                        <div className="col-md-2" style={{ marginTop: "1rem" }}>
-                            <button type="button" className='btn btn-dark-blue' onClick={addFamiliar}><i className='fa fa-plus'></i> Adicionar Familiar</button>
-                        </div>
+                                <div className="col-md-3">
+                                    <div className="input-form">
+                                        <label htmlFor="familiar_profissao">Profissão (opcional)</label>
+                                        <input
+                                            id="familiar_profissao"
+                                            name="familiar_profissao"
+                                            className="form-control input rounded-2"
+                                            type="text"
+                                            placeholder="Profissão do Familiar"
+                                            value={familiar.familiar_profissao}
+                                            onChange={handleFamilia}
 
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-2" style={{ marginTop: "1rem" }}>
+                                    <button type="button" className='btn btn-dark-blue' onClick={addFamiliar}><i className='fa fa-plus'></i> Adicionar Familiar</button>
+                                </div>
+                            </>
+
+                            : null
+
+                        }
                         <div className="row">
 
                             <div className="col-md-12">
@@ -897,7 +942,12 @@ const Edit = (props) => {
                                                     <td>Parentesco</td>
                                                     <td>Idade</td>
                                                     <td>Profissão</td>
-                                                    <td></td>
+                                                    {
+                                                        user.appMode === 0 ?
+                                                            <td></td>
+                                                            : null
+                                                    }
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -917,9 +967,14 @@ const Edit = (props) => {
 
                                                                 {s.familiar_profissao ?? "--"}
                                                             </td>
-                                                            <td>
-                                                                <button type="button" className="btn btn-danger pull-right" onClick={() => { removerFamiliar(s) }}><i className="fa-solid fa-trash"></i> Excluir</button>
-                                                            </td>
+                                                            {
+                                                                user.appMode === 0 ?
+                                                                    <td>
+                                                                        <button type="button" className="btn btn-danger pull-right" onClick={() => { removerFamiliar(s) }}><i className="fa-solid fa-trash"></i> Excluir</button>
+                                                                    </td>
+                                                                    : null
+                                                            }
+
                                                         </tr>
                                                     ))
                                                 }
@@ -949,6 +1004,7 @@ const Edit = (props) => {
                                     placeholder="Descrição"
                                     value={trabalho.trabalho_descricao}
                                     onChange={handleTrabalho}
+                                    readOnly={user.appMode === 1}
 
                                 />
                             </div>
@@ -963,6 +1019,7 @@ const Edit = (props) => {
                                     type="time"
                                     value={trabalho.trabalho_horario_inicio}
                                     onChange={handleTrabalho}
+                                    readOnly={user.appMode === 1}
                                 />
                             </div>
                         </div>
@@ -977,6 +1034,7 @@ const Edit = (props) => {
                                     type="time"
                                     value={trabalho.trabalho_horario_fim}
                                     onChange={handleTrabalho}
+                                    readOnly={user.appMode === 1}
                                 />
                             </div>
                         </div>
@@ -984,7 +1042,7 @@ const Edit = (props) => {
                         <div className="col-md-7">
                             <div className="input-form">
                                 <label htmlFor="trabalho_dias_semana">Dias Semana</label>
-                                <InputDiasSemana id="trabalho_dias_semana" name="trabalho_dias_semana" handleChange={handleDias} value={trabalho.trabalho_dias_semana} />
+                                <InputDiasSemana id="trabalho_dias_semana" name="trabalho_dias_semana" handleChange={handleDias} value={trabalho.trabalho_dias_semana} readOnly={user.appMode === 1} disabled={user.appMode === 1} />
                             </div>
                         </div>
 
@@ -996,32 +1054,42 @@ const Edit = (props) => {
 
                 <div className="col-md-12" style={{ marginTop: "1rem" }}>
                     <Label nameLabel={"Habilidades"} />
-                    <div className="row">
-                        <div className="col-md-5">
-                            <div className="input-form">
-                                <label htmlFor="habilidade">Descrição</label>
-                                <div className="input-group mb-3">
-                                    <input
-                                        id="habilidade"
-                                        name="habilidade"
-                                        className="form-control input rounded-2"
-                                        type="text"
 
-                                        value={habilidade.habilidade}
-                                        onChange={handleHabilidade}
-                                    />
+                    {user.appMode === 0
 
-                                    <div className="input-group-append">
-                                        <button className="btn btn-dark-blue" onClick={addHabilidade} type="button"><i className='fa fa-plus'></i> Adicionar Habilidade</button>
+                        ?
+
+                        <div className="row">
+                            <div className="col-md-5">
+                                <div className="input-form">
+                                    <label htmlFor="habilidade">Descrição</label>
+                                    <div className="input-group mb-3">
+                                        <input
+                                            id="habilidade"
+                                            name="habilidade"
+                                            className="form-control input rounded-2"
+                                            type="text"
+
+                                            value={habilidade.habilidade}
+                                            onChange={handleHabilidade}
+                                        />
+
+                                        <div className="input-group-append">
+                                            <button className="btn btn-dark-blue" onClick={addHabilidade} type="button"><i className='fa fa-plus'></i> Adicionar Habilidade</button>
+                                        </div>
+
                                     </div>
 
+
                                 </div>
-
-
                             </div>
+
                         </div>
 
-                    </div>
+                        : null
+
+                    }
+
 
 
                     <div className="row">
@@ -1032,7 +1100,12 @@ const Edit = (props) => {
                                         <thead>
                                             <tr>
                                                 <td>Descrição</td>
-                                                <td></td>
+                                                {
+                                                    user.appMode === 0 ?
+                                                        <td></td>
+                                                        : null
+                                                }
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1042,9 +1115,14 @@ const Edit = (props) => {
                                                         <td>
                                                             {s.habilidade}
                                                         </td>
-                                                        <td>
-                                                            <button type="button" className="btn btn-danger pull-right" onClick={() => { removerHabilidade(s) }}><i className="fa-solid fa-trash"></i> Excluir</button>
-                                                        </td>
+
+                                                        {user.appMode === 0 ?
+                                                            <td>
+                                                                <button type="button" className="btn btn-danger pull-right" onClick={() => { removerHabilidade(s) }}><i className="fa-solid fa-trash"></i> Excluir</button>
+                                                            </td>
+
+                                                            : null}
+
                                                     </tr>
                                                 ))
                                             }
@@ -1059,60 +1137,67 @@ const Edit = (props) => {
                 <div className="col-md-12" style={{ marginTop: "1rem" }}>
                     <Label nameLabel={"Cursos e Especializações"} />
 
+
                     <div className="row">
-                        <div className="col-md-12">
-                            <div className="input-form">
-                                <label htmlFor="curso_descricao">Descrição</label>
-                                <div className="input-group">
-                                    <input
-                                        id="curso_descricao"
-                                        name="curso_descricao"
-                                        className="form-control input rounded-2"
-                                        type="text"
-                                        value={cursos.curso_descricao}
-                                        onChange={handleCursos}
-                                    />
+
+                        {user.appMode === 0 ?
+
+                            <>
+                                <div className="col-md-12">
+                                    <div className="input-form">
+                                        <label htmlFor="curso_descricao">Descrição</label>
+                                        <div className="input-group">
+                                            <input
+                                                id="curso_descricao"
+                                                name="curso_descricao"
+                                                className="form-control input rounded-2"
+                                                type="text"
+                                                value={cursos.curso_descricao}
+                                                onChange={handleCursos}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div className="col-md-12">
-                            <div className="input-form">
-                                <label htmlFor="curso_instituicao">Instituição</label>
-                                <div className="input-group">
-                                    <input
-                                        id="curso_instituicao"
-                                        name="curso_instituicao"
-                                        className="form-control input rounded-2"
-                                        type="text"
-                                        value={cursos.curso_instituicao}
-                                        onChange={handleCursos}
-                                    />
+                                <div className="col-md-12">
+                                    <div className="input-form">
+                                        <label htmlFor="curso_instituicao">Instituição</label>
+                                        <div className="input-group">
+                                            <input
+                                                id="curso_instituicao"
+                                                name="curso_instituicao"
+                                                className="form-control input rounded-2"
+                                                type="text"
+                                                value={cursos.curso_instituicao}
+                                                onChange={handleCursos}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div className="col-md-12">
-                            <div className="input-form">
-                                <label htmlFor="curso_observacao">Observação</label>
-                                <div className="input-group">
-                                    <textarea
-                                        id="curso_observacao"
-                                        name="curso_observacao"
-                                        className="form-control input rounded-2"
-                                        type="text"
-                                        value={cursos.curso_observacao}
-                                        rows={4}
-                                        onChange={handleCursos}
-                                    />
+                                <div className="col-md-12">
+                                    <div className="input-form">
+                                        <label htmlFor="curso_observacao">Observação</label>
+                                        <div className="input-group">
+                                            <textarea
+                                                id="curso_observacao"
+                                                name="curso_observacao"
+                                                className="form-control input rounded-2"
+                                                type="text"
+                                                value={cursos.curso_observacao}
+                                                rows={4}
+                                                onChange={handleCursos}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div className="col-md-3">
-                            <button type="button" className='btn btn-dark-blue' onClick={addCurso} style={{ marginTop: "1rem" }}><i className='fa fa-plus'></i> Adicionar Curso / Especialização</button>
+                                <div className="col-md-3">
+                                    <button type="button" className='btn btn-dark-blue' onClick={addCurso} style={{ marginTop: "1rem" }}><i className='fa fa-plus'></i> Adicionar Curso / Especialização</button>
 
-                        </div>
+                                </div>
+                            </>
+                            : null}
 
                         <div className="row">
                             <div className="col-md-12">
@@ -1124,7 +1209,10 @@ const Edit = (props) => {
                                                     <td>Descrição</td>
                                                     <td>Instituição</td>
                                                     <td>Observação</td>
-                                                    <td></td>
+                                                    {user.appMode === 0 ?
+                                                        <td></td>
+
+                                                        : null}
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -1140,9 +1228,11 @@ const Edit = (props) => {
                                                             <td>
                                                                 {s.curso_observacao}
                                                             </td>
-                                                            <td>
-                                                                <button type="button" className="btn btn-danger pull-right" onClick={() => { revomerCurso(s) }}><i className="fa-solid fa-trash"></i> Excluir</button>
-                                                            </td>
+                                                            {user.appMode === 0 ?
+                                                                <td>
+                                                                    <button type="button" className="btn btn-danger pull-right" onClick={() => { revomerCurso(s) }}><i className="fa-solid fa-trash"></i> Excluir</button>
+                                                                </td>
+                                                                : null}
                                                         </tr>
                                                     ))
                                                 }
@@ -1153,6 +1243,8 @@ const Edit = (props) => {
                         </div>
 
                     </div>
+
+
 
 
                 </div>
@@ -1167,46 +1259,56 @@ const Edit = (props) => {
                                 <div className="input-form col-md-6">
 
                                     <div className="row">
+                                        {user.appMode === 0 ?
+                                            <div className="col-md-12">
+                                                <label htmlFor="saude_uso_drogas">Usuário de Drogas? Se sim, informe-as abaixo: </label>
 
-                                        <div className="col-md-12">
-                                            <label htmlFor="saude_uso_drogas">Usuário de Drogas? Se sim, informe-as abaixo: </label>
+                                            </div>
 
-                                        </div>
+                                            : <div className="col-md-12">
+                                                <label htmlFor="saude_uso_drogas">Drogas Usadas: </label>
+
+                                            </div>}
                                         <div className="col-md-12">
 
                                             <div className="row">
-                                                <div className="col-md-12">
 
-                                                    <div className="input-group mb-3">
+                                                {user.appMode === 0 ?
 
-                                                        <input
-                                                            id="droga_nome"
-                                                            name="droga_nome"
-                                                            className="form-control input rounded-2"
-                                                            placeholder="Cocaína, Álcool, ..."
-                                                            type="text"
-                                                            value={droga.droga_nome}
-                                                            onChange={handleDroga}
-                                                        />
+                                                    <div className="col-md-12">
 
-                                                        <div className="input-group-append">
-                                                            <select className="select-custom w-10 form-select form-select-md" id="droga_frequencia" name="droga_frequencia"
-                                                                value={droga.droga_frequencia}
-                                                                required={true}
-                                                                onChange={handleDroga}>
-                                                                <option defaultValue={true} value='0'>Não Usa</option>
-                                                                <option value='1'>Eventualmente</option>
-                                                                <option value='2'>Com Frequência</option>
-                                                            </select>
-                                                        </div>
+                                                        <div className="input-group mb-3">
 
-                                                        <div className="input-group-append">
-                                                            <button type="button" className='btn btn-dark-blue' onClick={addDroga} ><i className='fa fa-plus'></i> Adicionar Droga</button>
+                                                            <input
+                                                                id="droga_nome"
+                                                                name="droga_nome"
+                                                                className="form-control input rounded-2"
+                                                                placeholder="Cocaína, Álcool, ..."
+                                                                type="text"
+                                                                value={droga.droga_nome}
+                                                                onChange={handleDroga}
+                                                            />
+
+                                                            <div className="input-group-append">
+                                                                <select className="select-custom w-10 form-select form-select-md" id="droga_frequencia" name="droga_frequencia"
+                                                                    value={droga.droga_frequencia}
+                                                                    required={true}
+                                                                    onChange={handleDroga}>
+                                                                    <option defaultValue={true} value='0'>Não Usa</option>
+                                                                    <option value='1'>Eventualmente</option>
+                                                                    <option value='2'>Com Frequência</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div className="input-group-append">
+                                                                <button type="button" className='btn btn-dark-blue' onClick={addDroga} ><i className='fa fa-plus'></i> Adicionar Droga</button>
+                                                            </div>
+
                                                         </div>
 
                                                     </div>
+                                                    : null}
 
-                                                </div>
 
                                                 {
                                                     saude.saude_drogas.length > 0 ?
@@ -1215,7 +1317,10 @@ const Edit = (props) => {
                                                                 <tr>
                                                                     <th>Droga</th>
                                                                     <th>Frequência</th>
-                                                                    <th></th>
+                                                                    {user.appMode === 0 ?
+                                                                        <th></th>
+
+                                                                        : null}
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -1224,7 +1329,9 @@ const Edit = (props) => {
                                                                         <tr key={i}>
                                                                             <td>{s.droga_nome}</td>
                                                                             <td>{s.droga_frequencia == 0 ? 'Não Usa' : s.droga_frequencia == 1 ? "Eventualmente" : "Com Frequência"}</td>
-                                                                            <td><button type="button" className="btn btn-danger pull-right" onClick={() => { removerDroga(s) }}><i className="fa-solid fa-trash"></i> Excluir</button></td>
+                                                                            {user.appMode === 0 ?
+                                                                                <td><button type="button" className="btn btn-danger pull-right" onClick={() => { removerDroga(s) }}><i className="fa-solid fa-trash"></i> Excluir</button></td>
+                                                                                : null}
                                                                         </tr>
                                                                     ))
                                                                 }
@@ -1253,7 +1360,8 @@ const Edit = (props) => {
                                     <select className="select-custom w-10 form-select form-select-md" id="saude_deficiencia" name="saude_deficiencia"
                                         value={saude.saude_deficiencia}
                                         required={true}
-                                        onChange={handleSaude}>
+                                        onChange={handleSaude}
+                                        disabled={user.appMode === 1}>
                                         <option defaultValue={true} value='0'>Não</option>
                                         <option value='1'>Mental</option>
                                         <option value='2'>Auditiva</option>
@@ -1273,6 +1381,7 @@ const Edit = (props) => {
                                                 value={saude.saude_observacao}
                                                 rows={4}
                                                 onChange={handleSaude}
+                                                readOnly={user.appMode === 1}
                                             />
                                         </div>
                                     </div>
@@ -1287,11 +1396,15 @@ const Edit = (props) => {
 
 
             </div>
+            {user.appMode === 0 ?
+                <div className="col-md-12 btn-inline" style={{ 'marginTop': '2rem' }}>
+                    <button type="submit" className="btn btn-dark-blue" ><i className="fa fa-save"></i> Salvar</button>
+                    <button type="button" onClick={() => { navigate("/prestadores"); }} className="btn btn-danger"><i className="fa fa-trash"></i> Cancelar</button>
+                </div>
 
-            <div className="col-md-12 btn-inline" style={{ 'marginTop': '2rem' }}>
-                <button type="submit" className="btn btn-dark-blue" ><i className="fa fa-save"></i> Salvar</button>
-                <button type="button" onClick={() => {navigate("/prestadores");}} className="btn btn-danger"><i className="fa fa-trash"></i> Cancelar</button>
-            </div>
+                : null
+            }
+
 
         </form>
     )

@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     tipo_instituicao: DataTypes.INTEGER,
     dt_descredenciamento: DataTypes.DATE,
     observacao: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
     
   }, {
     sequelize,

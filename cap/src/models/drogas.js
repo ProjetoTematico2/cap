@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    nome: DataTypes.STRING
+    nome: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Drogas',

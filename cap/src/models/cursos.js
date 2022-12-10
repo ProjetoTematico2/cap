@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     intituicao: DataTypes.STRING,
     curso: DataTypes.STRING,
     observacoes: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
     
   }, {
     sequelize,

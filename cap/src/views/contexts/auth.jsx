@@ -9,20 +9,7 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    // const isAuth = async () => {
-    //     const authenticated = await window.api.Action({ controller: "Login", action: "isAuthenticated" });
-    //     return authenticated;
-    // }
     useEffect(() => {
-        // // const recoveredUser = localStorage.getItem('user');
-        // const auth = isAuth();
-        // if(!auth)
-        // // if (recoveredUser) {
-        // //     setUser(JSON.parse(recoveredUser));
-
-        // //     if (!auth)
-        // //         logout();
-        // // }
         setLoading(false);
 
     }, [user]);
@@ -34,7 +21,6 @@ export const AuthProvider = ({ children }) => {
         const authenticated = await window.api.Action({ controller: "Login", action: "Authenticate", params: { usuario: user, senha: password } });
 
         if (authenticated.status) {
-            // localStorage.setItem('user', JSON.stringify(authenticated.user));
             console.log(authenticated);
             setUser(authenticated.user);
             navigate('/');
@@ -45,7 +31,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        // localStorage.removeItem('user');
         setUser(null);
         navigate('/login');
     };

@@ -1,4 +1,6 @@
 'use strict';
+const cAPP = require('../app');
+
 const {
   Model
 } = require('sequelize');
@@ -29,14 +31,21 @@ module.exports = (sequelize, DataTypes) => {
     telefone1: DataTypes.INTEGER,
     telefone2: DataTypes.INTEGER,
     religiao: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER,
     image: {
       type: DataTypes.BLOB('long'),
       get() {
         let buffer = this.getDataValue('image');
 
-        let imgBase64 = Buffer.from(buffer).toString('base64');
-        if(imgBase64) imgBase64 = `data:image/jpeg;base64,${imgBase64}`;
-       
+        let imgBase64 = "";
+
+        if(cAPP.config.mode === 0){
+          imgBase64 = Buffer.from(buffer).toString('base64');
+          if(imgBase64) imgBase64 = `data:image/jpeg;base64,${imgBase64}`;
+        }
+        else{
+          imgBase64 = Buffer.from(buffer).toString();
+        }
         
         return imgBase64;
       }

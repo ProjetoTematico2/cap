@@ -3,17 +3,22 @@ const cAPP = require('./app');
 
 const Login = require('./controllers/Login');
 const Usuarios = require('./controllers/Usuarios');
-
-console.log("bbb", cAPP.config.mode);
+const Sincronizacao = require('./controllers/Sincronizacao');
+const Prestadores = require('./controllers/Prestadores');
+const Processos = require('./controllers/Processos');
+const Entidades = require('./controllers/Entidades');
+const Cidades = require('./controllers/Cidades');
+const Agendamentos = require('./controllers/Agendamentos');
+const AtestadoFrequencia = require('./controllers/AtestadoFrequencia');
 if(cAPP.config.mode == 0){
     
-    const Prestadores = require('./controllers/central/Prestadores');
-    const Cidades = require('./controllers/central/Cidades');
+
+
     const Centrais = require('./controllers/central/Centrais');
-    const Processos = require('./controllers/central/Processos');
-    const Entidades = require('./controllers/central/Entidades');
-    const Agendamentos = require('./controllers/central/Agendamentos');
-    const AtestadoFrequencia = require('./controllers/central/AtestadoFrequencia');
+
+ 
+
+
 
     module.exports = {
 

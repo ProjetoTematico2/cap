@@ -112,7 +112,15 @@ export default function Create() {
             }
         })
         data = data.filter((e) => { return e != undefined });
-        setEntidades(data);
+
+        var distinct = []
+        for (var i = 0; i < data.length; i++){
+            if(distinct.filter(s => s.value == data[i].value ).length == 0){
+                distinct.push(data[i])
+            }
+        }
+      
+        setEntidades(distinct);
     }
 
     const fetchDataProcessos = async (value) => {

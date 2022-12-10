@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     nome: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Beneficios',

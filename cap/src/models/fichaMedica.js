@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     deficiencia: DataTypes.INTEGER,
     observacao: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
     
   }, {
     sequelize,

@@ -43,24 +43,15 @@ import EntidadesDescredenciar from "./pages/Entidades/Descredenciar";
 import Agendamentos from './pages/Agendamentos/Index';
 import AgendamentosCreate from './pages/Agendamentos/Create';
 import AgendamentosEdit from './pages/Agendamentos/Edit';
+import AgendamentosEntidade  from './pages/Agendamentos/AgendamentosEntidade';
+
+
+//SINCRONIZACAO
+import Sincronizacao from "./pages/Sincronizacao";
 
 
 
 const AppRoutes = () => {
-
-    const getConfig = async () => {
-        let config = await window.api.App();
-        return config;
-    }
- 
-    var config = getConfig();
-    console.log(config);
-    // useEffect(() => {
-
-
-    //     fetchData();
-
-    // }, null);
 
     const Private = ({ children }) => {
         const { authenticated, loading } = useContext(AuthContext);
@@ -108,8 +99,11 @@ const AppRoutes = () => {
                         <Route path="entidades/create" element={<Private><EntidadesCreate /></Private>} />
                         <Route path="entidades/edit/:id" element={<Private><EntidadesEdit /></Private>} />
                         <Route path="entidades/descredenciar/:id" element={<Private><EntidadesDescredenciar /></Private>} />
+
+                        <Route path="sincronizacao" element={<Private><Sincronizacao /></Private>} />
                         
                         <Route path="agendamentos/" element={<Private><Agendamentos /></Private>} />
+                        <Route path="agendamentos/AgendamentosEntidade" element={<Private><AgendamentosEntidade /></Private>} />
                         <Route path="agendamentos/create" element={<Private><AgendamentosCreate /></Private>} />
                         <Route path="agendamentos/edit/:id" element={<Private><AgendamentosEdit /></Private>} />
 

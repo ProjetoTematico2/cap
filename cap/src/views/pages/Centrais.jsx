@@ -23,7 +23,7 @@ export default function Centrais(props) {
     });
 
     const handleEndereco = (evt, name = null) => {
-        debugger;
+
         const value = evt.value ?? evt.target.value;
 
         setEndereco({

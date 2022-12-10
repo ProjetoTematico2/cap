@@ -112,7 +112,7 @@ export default function Index(props) {
 
                                 <tr key={r.id}>
                                     <td>{r.id}</td>
-                                    <td>{r.processo.dataValues.nro_processo }</td>
+                                    <td>{r.processo.nro_processo }</td>
                                     <td>{r.agendamento_horario_inicio}</td>
                                     <td>{r.agendamento_horario_fim}</td>
                                     <td>

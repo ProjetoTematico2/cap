@@ -2,11 +2,13 @@
     "version": "0.2.0",
     "configurations": [
       {
+        // "command": "npm run electron",
         "name": "Debug Main Process",
+        // "type": "node-terminal",
         "type": "node",
         "request": "launch",
-        "cwd": "${workspaceFolder}",
-        "program": "electron.js",
+        "cwd": "${workspaceFolder}/cap",
+        "program": "${workspaceFolder}/cap/public/electron.js",
         "runtimeExecutable": "${workspaceFolder}/cap/node_modules/.bin/electron",
         "windows": {
           "runtimeExecutable": "${workspaceFolder}/cap/node_modules/.bin/electron.cmd"

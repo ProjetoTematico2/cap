@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
 
     dt_entrada: DataTypes.DATE,
     dt_saida: DataTypes.DATE,
-    observacao: DataTypes.STRING
+    observacao: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
 
   }, {
     sequelize,

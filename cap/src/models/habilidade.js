@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     descricao: DataTypes.STRING,
     observacao: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Habilidades',

@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     rua: DataTypes.STRING,
     numero: DataTypes.INTEGER,
     bairro: DataTypes.STRING,
-    complemento: DataTypes.STRING
+    complemento: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Endereco',

@@ -1,6 +1,17 @@
-const db = require('../../models/index');
-const { TipoInstituicao } = require('../../utils/enums');
+const db = require('../models/index');
+const { TipoInstituicao } = require('../utils/enums');
 const { Op } = require("sequelize");
+
+
+function diff_hours(dt2, dt1) {
+
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= (60 * 60);
+    return Math.abs(Math.round(diff));
+
+}
+
+
 module.exports = {
 
 
@@ -9,7 +20,8 @@ module.exports = {
             include: [
                 { model: db.sequelize.models.Instituicoes },
                 { model: db.sequelize.models.Prestadores },
-                { model: db.sequelize.models.Vara }]
+                { model: db.sequelize.models.Vara },
+                { model: db.sequelize.models.AtestadoFrequencia }]
         });
 
         const data = {
@@ -28,7 +40,10 @@ module.exports = {
             valor_a_pagar: Processo.valor_a_pagar,
             qtd_penas_anteriores: Processo.qtd_penas_anteriores,
             vara: Processo.Vara ? Processo.Vara.nome : '',
-            nome_prestador: Processo.Prestadore.nome
+            nome_prestador: Processo.Prestadore.nome,
+            horas_cumpridas: Processo.AtestadoFrequencia.map(s => {
+                return diff_hours(s.dt_entrada, s.dt_saida)
+            }).reduce((a, b) => a + b, 0)
         }
 
         return data;
@@ -55,7 +70,8 @@ module.exports = {
         const Processos = await db.sequelize.models.Processos.findAll({
             include: [
                 { model: db.sequelize.models.Prestadores },
-                { model: db.sequelize.models.Vara }
+                { model: db.sequelize.models.Vara },
+                { model: db.sequelize.models.AtestadoFrequencia }
             ],
             where: where
         });
@@ -66,7 +82,9 @@ module.exports = {
                 nro_processo: s.nro_processo,
                 prestador: s.Prestadore.nome,
                 horas_cumprir: s.horas_cumprir,
-                horas_cumpridas: 'N/A',
+                horas_cumpridas: s.AtestadoFrequencia.map(s => {
+                    return diff_hours(s.dt_entrada, s.dt_saida)
+                }).reduce((a, b) => a + b, 0),
                 vara: s.Vara ? s.Vara.nome : 'N/A'
             }
         });
@@ -149,8 +167,8 @@ module.exports = {
             },
             include: { model: db.sequelize.models.Prestadores }
         });
-     
-       const prestador =  {
+
+        const prestador = {
             value: data.Prestadore.dataValues.id,
             label: data.Prestadore.dataValues.nome
         }
@@ -179,7 +197,6 @@ module.exports = {
             });
 
             const Vara = await db.sequelize.models.Vara.create({
-                PrestadoreId: parseInt(payload.id),
                 nome: payload.processo.vara
             });
 
@@ -235,6 +252,55 @@ module.exports = {
             await db.sequelize.models.Processos.destroy({ where: { id: id } })
 
             return { status: true, text: `Processo ${Processo.nro_processo} removido!` };
+
+        } catch (error) {
+            return { status: false, text: "Erro interno no servidor." };
+        }
+
+    },
+
+    async GetRegistros(payload) {
+        try {
+            var id_processo = payload.id;
+
+            const agendamentos = await db.sequelize.models.Agendamentos.findAll({
+                include: [
+                    {
+                        model: db.sequelize.models.Tarefa,
+                        include: [
+                            { model: db.sequelize.models.Instituicoes }
+                        ]
+                    }
+                ],
+            });
+
+            const registros = await db.sequelize.models.AtestadoFrequencia.findAll({
+                where: {
+                    ProcessoId: id_processo
+                }
+            });
+
+            const data = registros.map(s => {
+                return {
+                    id: s.id,
+                  
+                    dt_entrada: s.dt_entrada.toLocaleString("pt-BR"),
+                    dt_saida: s.dt_saida.toLocaleString("pt-BR"),
+                    observacao: s.observacao,
+                    total_horas: diff_hours(s.dt_entrada, s.dt_saida),
+                    agendamento: agendamentos.filter(ss => ss.id == s.AgendamentoId).map(m => {
+                        return {
+                            tarefa: m.Tarefa.titulo,
+                            data_inicial: s.data_inicial,
+                            horario_inicio: m.horario_inicio,
+                            horario_fim: m.horario_fim,
+                            entidade: m.Tarefa.Instituico.nome
+                        }
+                    })[0]
+
+                }
+            });
+            return { status: true, data: data };
 
         } catch (error) {
             return { status: false, text: "Erro interno no servidor." };

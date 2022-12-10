@@ -24,6 +24,8 @@ const InputDiasSemana = (props) => {
             name={props.name}
             onChange={(evt) => { props.handleChange(evt, props.name) }}
             value={props.value}
+            readOnly={props.readOnly}
+            isDisabled={props.disabled}
             isMulti
         />
 

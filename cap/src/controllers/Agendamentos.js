@@ -1,5 +1,13 @@
-const db = require('../../models/index');
+const db = require('../models/index');
 const { Op } = require("sequelize");
+
+function diff_hours(dt2, dt1) {
+
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= (60 * 60);
+    return Math.abs(Math.round(diff));
+
+}
 
 module.exports = {
 
@@ -66,6 +74,8 @@ module.exports = {
 
             let Agendamento = await db.sequelize.models.Agendamentos.findByPk(payload.agendamentos.id);
 
+
+
             Agendamento.data_inicial = payload.agendamentos.agendamento_dia_inicial,
                 Agendamento.horario_inicio = payload.agendamentos.agendamento_horario_inicio,
                 Agendamento.horario_fim = payload.agendamentos.agendamento_horario_fim,
@@ -121,7 +131,14 @@ module.exports = {
                 //ProcessoId: where,
             },
             include: [
-                { model: db.sequelize.models.Processos },
+                {
+                    model: db.sequelize.models.Processos,
+                    include: [
+                        { model: db.sequelize.models.Instituicoes },
+                        { model: db.sequelize.models.Prestadores },
+                        { model: db.sequelize.models.Vara },
+                        { model: db.sequelize.models.AtestadoFrequencia }]
+                },
                 { model: db.sequelize.models.Tarefa }
             ],
         });
@@ -129,25 +146,119 @@ module.exports = {
         return data.map(s => {
             let agendamentos = {
                 id: s.id,
+                agendamento_data_inicial: s.data_inicial,
                 agendamento_horario_inicio: s.horario_inicio,
                 agendamento_horario_fim: s.horario_fim,
                 agendamento_dia_inicial: s.data_inicial,
-                agendamento_dias_semana: [
-                    s.segunda ? { value: 0, label: "Segunda-feira" } : false,
-                    s.terca ? { value: 1, label: "Terça-feira" } : false,
-                    s.quarta ? { value: 2, label: "Quarta-feira" } : false,
-                    s.quinta ? { value: 3, label: "Quinta-feira" } : false,
-                    s.sexta ? { value: 4, label: "Sexta-feira" } : false,
-                    s.sabado ? { value: 5, label: "Sábado" } : false,
-                    s.domingo ? { value: 6, label: "Domingo" } : false
-                ],
+                agendamento_dias_semana: {
+                    domingo: s.domingo,
+                    segunda: s.segunda,
+                    terca: s.terca,
+                    quarta: s.quarta,
+                    quinta: s.quinta,
+                    sexta: s.sexta,
+                    sabado: s.sabado,
+                },
+
                 processo_id: s.ProcessoId,
                 tarefa_id: s.TarefaId,
                 tarefa: s.Tarefa,
-                processo: s.Processo
+                processo: {
+                    nro_processo: s.Processo.nro_processo,
+                    nro_artigo_penal: s.Processo.nro_artigo_penal,
+                    pena_originaria: s.Processo.pena_originaria,
+                    pena_originaria_regime: s.Processo.pena_originaria_regime,
+                    inciso: s.Processo.inciso,
+                    detalhamento: s.Processo.detalhamento,
+                    prd: s.Processo.prd,
+                    prd_descricao: s.Processo.prd_descricao,
+                    horas_cumprir: s.Processo.horas_cumprir,
+                    possui_multa: s.Processo.possui_multa,
+                    valor_a_pagar: s.Processo.valor_a_pagar,
+                    qtd_penas_anteriores: s.Processo.qtd_penas_anteriores,
+                    vara: s.Processo.Vara ? s.Processo.Vara.nome : '',
+                    nome_prestador: s.Processo.Prestadore.nome,
+                    imagem_prestador: s.Processo.Prestadore.image,
+                    horas_cumpridas: s.Processo.AtestadoFrequencia.map(s => {
+                        return diff_hours(s.dt_entrada, s.dt_saida)
+                    }).reduce((a, b) => a + b, 0)
+                }
             }
             return agendamentos;
         });
     },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    async Registrar(payload) {
+        try {
+
+            var Agendamento = await db.sequelize.models.Agendamentos.findOne({
+                where: {
+                    id: payload.id_agendamento
+                }
+            });
+
+            let processo = await db.sequelize.models.Processos.findByPk(Agendamento.ProcessoId);
+
+            let total = diff_hours(new Date(payload.registro.data + " " + payload.registro.horario_entrada),new Date(payload.registro.data + " " + payload.registro.horario_saida) );
+
+            if(total > (processo.horas_cumprir - total))
+                return { status: false, text: `Quantidade de horas maior que o necessário` };
+
+            let addRESULT = await db.sequelize.models.AtestadoFrequencia.create({
+                dt_entrada: new Date(payload.registro.data + " " + payload.registro.horario_entrada),
+                dt_saida: new Date(payload.registro.data + " " + payload.registro.horario_saida),
+                observacao: payload.registro.observacao,
+                AgendamentoId: payload.id_agendamento,
+                ProcessoId: Agendamento.ProcessoId,
+                TarefaId: Agendamento.TarefaId,
+            });
+        } catch (error) {
+            return { status: false, text: "Erro interno no servidor. " + error.message };
+        }
+
+        return { status: true, text: `Registro Adicionado.` };
+
+    }
 
 }

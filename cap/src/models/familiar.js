@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     idade: DataTypes.INTEGER,
     profissao: DataTypes.STRING,
     observacao: DataTypes.STRING,
+    ref_integracao: DataTypes.INTEGER
 
   }, {
     sequelize,

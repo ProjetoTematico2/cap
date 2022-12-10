@@ -1,6 +1,6 @@
-const db = require('../../models/index');
+const db = require('../models/index');
 const { Op } = require("sequelize");
-const { TipoInstituicao } = require('../../utils/enums');
+const { TipoInstituicao } = require('../utils/enums');
 
 
 module.exports = {
@@ -205,19 +205,19 @@ module.exports = {
         return { status: true, text: `Entidade ${Entidade.nome} removida!` };
     },
 
-    async GetTarefasLabel() {
-        const data = await db.sequelize.models.Tarefa.findAll({
-            include: [   { model: db.sequelize.models.Instituicoes }]
-        });
-
-    
+    async GetEntidadesSelect(){
+        const data = await db.sequelize.models.Instituicoes.findAll(
+            {
+                where:{
+                    tipo_instituicao: TipoInstituicao.Entidade
+                }
+            }
+        );
         let array = data.map(s => {
 
             return {
                 value: s.id,
-                label: s.titulo,
-                instituicaoTarefaId: s.Instituico.id,
-                instituicoes: s.Instituico.dataValues
+                label: s.nome
             }
 
         });
@@ -326,7 +326,28 @@ module.exports = {
         }
 
 
-    }
+    },
+
+    async GetTarefasLabel() {
+        const data = await db.sequelize.models.Tarefa.findAll({
+            include: [   { model: db.sequelize.models.Instituicoes }]
+        });
+
+
+        let array = data.map(s => {
+
+            return {
+                value: s.id,
+                label: s.titulo,
+                instituicaoTarefaId: s.Instituico.id,
+                instituicoes: s.Instituico.dataValues
+            }
+
+        });
+
+        return array;
+    },
+
 
 
 
